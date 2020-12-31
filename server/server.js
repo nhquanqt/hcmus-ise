@@ -24,7 +24,14 @@ app.get('/', (req, res) => {
     res.send('hello world');
 });
 
+<<<<<<< HEAD
 require('./app/routes/account.routes')(app);
+=======
+require('./app/routes/job.routes')(app);
+require('./app/routes/major.routes')(app);
+require('./app/routes/company.routes')(app);
+require('./app/routes/field.routes')(app);
+>>>>>>> add major + field + company
 
 const PORT = 8080;
 app.listen(PORT, () => {
