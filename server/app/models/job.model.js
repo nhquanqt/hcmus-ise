@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
         JobDescription: {
             type: Sequelize.STRING
         }
-	});
+    });
 
 	return Job;
 };

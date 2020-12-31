@@ -25,6 +25,9 @@ app.get('/', (req, res) => {
 });
 
 require('./app/routes/job.routes')(app);
+require('./app/routes/major.routes')(app);
+require('./app/routes/company.routes')(app);
+require('./app/routes/field.routes')(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {

@@ -90,27 +90,34 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tutorial with id=" + id
+                message: err.message
             });
         });
 };
 
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {
-  
-};
-
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
-  
-};
+    const id = parseInt(req.params.id);
 
-// Delete all Tutorials from the database.
-exports.deleteAll = (req, res) => {
-  
-};
-
-// Find all published Tutorials
-exports.findAllPublished = (req, res) => {
-  
+    Jobs.destroy({
+        where: {
+            id: id
+        }
+    })
+        .then(num => {
+            if(num == 1) {
+                res.send({
+                    message: "Job has been deleted successfully."
+                })
+            }
+            else {
+                res.send({
+                    message: "Job was not found."
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message
+            });
+        });
 };

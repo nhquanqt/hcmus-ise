@@ -1,0 +1,26 @@
+module.exports = (sequelize, Sequelize) => {
+	const Company = sequelize.define("company", {
+		FieldID: {
+			type: Sequelize.INTEGER
+		},
+		CompanyName: {
+			type: Sequelize.STRING,
+			allowNull: false,
+			unique: true
+		},
+		Location: {
+			type: Sequelize.STRING,
+			allowNull: false
+		},
+		CompanyEmail: {
+			type: Sequelize.STRING,
+			allowNull: false,
+			unique: true
+		},
+		CompanyDescription: {
+			type: Sequelize.STRING
+		}
+	});
+
+	return Company;
+};

@@ -8,6 +8,7 @@ module.exports = app => {
     router.get("/major/:major_id", jobs.findByMajorID);
     router.get("/recruitment/:recruitment_id", jobs.findByRecruitmentID);
     router.get("/:id", jobs.findOne);
+    router.delete("/:id", jobs.delete);
   
     app.use('/api/jobs', router);
 };
