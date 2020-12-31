@@ -23,8 +23,11 @@ db.jobs = require("./job.model.js")(sequelize, Sequelize);
 db.majors = require("./major.model.js")(sequelize, Sequelize);
 db.companies = require("./company.model.js")(sequelize, Sequelize);
 db.fields = require("./field.model.js")(sequelize, Sequelize);
+db.recruitments = require("./recruitment.model.js")(sequelize, Sequelize);
 
 db.jobs.belongsTo(db.majors, {foreignKey: "MajorID"});
+db.jobs.belongsTo(db.recruitments, {foreignKey: "RecruitmentID"});
 db.companies.belongsTo(db.fields, {foreignKey: "FieldID"});
+db.recruitments.belongsTo(db.companies, {foreignKey: "CompanyID"});
 
 module.exports = db;

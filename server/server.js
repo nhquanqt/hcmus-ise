@@ -19,7 +19,6 @@ const db = require("./app/models");
 db.sequelize.sync();
 
 app.get('/', (req, res) => {
-    // res.json({message: 'Welcome to my website.'});
     console.log('GET request');
     res.send('hello world');
 });
@@ -28,6 +27,7 @@ require('./app/routes/job.routes')(app);
 require('./app/routes/major.routes')(app);
 require('./app/routes/company.routes')(app);
 require('./app/routes/field.routes')(app);
+require('./app/routes/recruitment.routes')(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {
