@@ -23,11 +23,12 @@ app.get('/', (req, res) => {
     res.send('hello world');
 });
 
-require('./app/routes/job.routes')(app);
-require('./app/routes/major.routes')(app);
-require('./app/routes/company.routes')(app);
-require('./app/routes/field.routes')(app);
-require('./app/routes/recruitment.routes')(app);
+// require('./app/routes/job.routes')(app);
+// require('./app/routes/major.routes')(app);
+// require('./app/routes/company.routes')(app);
+// require('./app/routes/field.routes')(app);
+// require('./app/routes/recruitment.routes')(app);
+require('./app/routes/routes')(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {
