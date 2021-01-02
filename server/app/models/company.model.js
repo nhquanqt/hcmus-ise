@@ -1,5 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
 	const Company = sequelize.define("company", {
+		UserID: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			unique: true
+		},
 		FieldID: {
 			type: Sequelize.INTEGER
 		},

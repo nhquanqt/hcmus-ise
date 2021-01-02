@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 require('./app/routes/account.routes')(app);
 =======
 require('./app/routes/job.routes')(app);
@@ -35,6 +36,14 @@ require('./app/routes/field.routes')(app);
 =======
 require('./app/routes/recruitment.routes')(app);
 >>>>>>> add recruitment
+=======
+// require('./app/routes/job.routes')(app);
+// require('./app/routes/major.routes')(app);
+// require('./app/routes/company.routes')(app);
+// require('./app/routes/field.routes')(app);
+// require('./app/routes/recruitment.routes')(app);
+require('./app/routes/routes')(app);
+>>>>>>> add api
 
 const PORT = 8080;
 app.listen(PORT, () => {
