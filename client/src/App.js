@@ -10,7 +10,7 @@ class App extends Component {
         return (
             <div>
                 <div>
-                    <AddAccount />
+                    <SearchJob />
                 </div>
             </div>
         );
