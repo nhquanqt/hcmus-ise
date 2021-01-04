@@ -1,0 +1,52 @@
+.list-group-search-job{
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.list-group-search-item{
+    overflow:hidden;  
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+
+.row-search-item{
+    margin: 5px;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.row-search-item-button{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 0px;
+    justify-content: flex-end;
+    flex: 1;
+}
+
+.button-search-item{
+    justify-content: center;
+    float:right;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.container-search-item{
+    padding: 0px;
+}
+
+.justify-content-flex-end{
+    justify-content: flex-end;
+}
+
+.small-margin{
+    margin: 5px;
+}
+
+.small-margin-left{
+    margin-left: 5px;
+}
