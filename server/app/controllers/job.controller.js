@@ -2,6 +2,48 @@ const db = require("../models");
 const Jobs = db.jobs;
 const Op = db.Sequelize.Op;
 
+exports.search = (req, res) => {
+
+    const code = 13644634
+
+    var query = req.body;
+    
+    if(query.name == undefined) {
+        query.name = ''
+    }
+    if(query.min == undefined) {
+        query.min = 0
+    }
+    if(query.max == undefined) {
+        query.max = 100000000000000000000000
+    }
+
+    Job.findAll({
+        where: {
+            JobName: {
+                [Op.like]: '%' + req.body.name + '%'
+            },                
+        },
+        include: [{
+            model: Recruitment,
+            where: {
+                Salary: {
+                    [Op.gte]: req.body.min,
+                    [Op.lte]: req.body.max
+                }
+            }
+        }]
+    })
+    .then(data => {
+        console.log("Run job search success");
+        res.send(data);
+    })
+    .catch(err => {
+        console.log('Error (' + code + '): ' + err.message);
+        res.status(500).send(err);
+    })
+}
+
 exports.create = (req, res) => {
     console.log('Creating new job');
 
