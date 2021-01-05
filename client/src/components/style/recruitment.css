@@ -1,0 +1,27 @@
+.card-body{
+    padding: 0px;
+}
+
+.card-title{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.card-col{
+    padding: 0px;
+}
+
+.paragraph{
+    font-size: 15px;
+}
+
+.small-margin-left{
+    margin-left: 10px;
+}
+.small-margin-right{
+    margin-right: 10px;
+}
+.small-margin-left-right{
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import AccountDataService from '../services/account.service';
-import '../App.css';
+import './style/search-job.css';
+import Recruitment from './recruitment.components';
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 import {
     Collapse,
     Navbar,
@@ -13,6 +16,7 @@ import {
     Row,
     Col,
     Jumbotron,
+    Card,
     Button, 
     Form,
     Input,
@@ -27,6 +31,15 @@ import {
     ListGroupItem
 } from 'reactstrap';
 
+
+import { 
+    faPlusSquare,
+    faSearch,
+    faMinusSquare,
+    faExchangeAlt
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 class SearchItem extends Component{
     constructor(props){
         super(props);
@@ -35,27 +48,24 @@ class SearchItem extends Component{
         this.id = props.id;
 
         this.state = {
-            keyword: this.props.keyword,
-            category: this.props.category
+            keyword: this.props.keyword
         }
     }
 
     render(){
         return (
-            <Container className='container-search-item' color='success'>
-                <Row className='row-search-item'>
-                    {this.state.category}
-                </Row>
-                <Row className='row-search-item'>
-                    {this.state.keyword}
-                </Row>
-                <Row className='row-search-item-button'>
-                        <Button className='button-search-item' color='primary' onClick={this.handleDeleteClick(this.id)}>
-                            X
-                        </Button>
-                        <Button className='button-search-item' color='primary'>
-                            C
-                        </Button>
+            <Container className='container-search-item' color='success' style={{paddingLeft: '20px', paddingRight: '10px'}}>
+                <Row>
+                    <Col className='row-search-item' sm={{size: 'auto'}} style={{margin: '0px', marginRight: '10px'}}>
+                        <Card style={{padding: '5px', border:'1px solid #3385FF'}}>
+                            {this.state.keyword}
+                        </Card>
+                    </Col>
+                    <Col className='row-search-item-button' sm={{size: 'auto'}}>
+                            <AwesomeButton type="primary" className='button-search-item' onPress={this.handleDeleteClick(this.id)}>
+                                <FontAwesomeIcon icon={faMinusSquare}/>
+                            </AwesomeButton>
+                    </Col>
                 </Row>
             </Container>
         );
@@ -69,7 +79,7 @@ export default class SearchJob extends Component{
 
         this.onAddSearchItemClick = this.onAddSearchItemClick.bind(this);
         this.onSearchItemDeleteClick = this.onSearchItemDeleteClick.bind(this);
-        this.onAdvancedSearchClick = this.onAdvancedSearchClick.bind(this);
+        this.handleSwitchSearchOption = this.handleSwitchSearchOption.bind(this);
 
         this.categories = ['category1', 'category2', 'category3', 'category4']
 
@@ -79,7 +89,8 @@ export default class SearchJob extends Component{
             dropdownValue: this.categories[0],
             nextItemId: 0,
             currentKeyword: '',
-            isAdvancedSearch: false
+            isAdvancedSearch: false,
+            isSwitchSearchOptionEnter: false
         }
 
     }
@@ -92,6 +103,10 @@ export default class SearchJob extends Component{
         }
         const category = this.state.dropdownValue;
         const listSearchItem = this.state.listSearchItem;
+        if(listSearchItem.some(item => item.category === category)){
+            alert('Category already exist!!!');
+            return;
+        }
         const nextItemId = this.state.nextItemId;
         this.setState({
             listSearchItem: listSearchItem.concat([
@@ -114,7 +129,7 @@ export default class SearchJob extends Component{
         }
     }
 
-    onAdvancedSearchClick(){
+    handleSwitchSearchOption(){
         this.setState({
             isAdvancedSearch: !this.state.isAdvancedSearch
         });
@@ -123,9 +138,9 @@ export default class SearchJob extends Component{
     renderAddSearchItem(){
         return(
             <InputGroupAddon addonType="prepend">
-                <Button onClick={this.onAddSearchItemClick}>
-                    Add
-                </Button>
+                <AwesomeButton type="primary" onPress={this.onAddSearchItemClick}>
+                    <FontAwesomeIcon icon={faPlusSquare}/>
+                </AwesomeButton>
             </InputGroupAddon>
         );
     }
@@ -133,10 +148,9 @@ export default class SearchJob extends Component{
     renderListSearchItem(){
         const searchItems = this.state.listSearchItem.map((item) => {
             return (
-                <ListGroupItem key = {item.id} className='small-margin'>
+                <ListGroupItem style={{border:'0px solid #000000', paddingRight: "25px", paddingLeft: "5px", paddingTop: "5px", paddingBottom: "5px"}} key = {item.id} className='small-margin'>
                     <SearchItem
                         keyword = {item.keyword}
-                        category = {item.category}
                         id = {item.id}
                         handleDeleteClick = {this.onSearchItemDeleteClick}
                     />
@@ -144,7 +158,7 @@ export default class SearchJob extends Component{
             );
         });
         return (
-            <ListGroup className="list-group-search-job" horizontal>
+            <ListGroup className="list-group-search-job" horizontal style={{padding:'10px'}}>
                 {searchItems}
             </ListGroup>
         );
@@ -152,25 +166,61 @@ export default class SearchJob extends Component{
 
     renderListCategoryDropDown(){
         const dropdownOpen = this.state.dropdownOpen;
-        const toggleDropDown = () => this.setState({dropdownOpen: !dropdownOpen});
-        const onChangeDropdownValue = (e) => this.setState({dropdownValue: e.currentTarget.textContent})
+        const dropDownOpenHandle = () => this.setState({dropdownOpen: true});
+        const dropDownCloseHandle = () => this.setState({dropdownOpen: false});
+        const onChangeDropdownValue = (e) => this.setState({
+            dropdownValue: e.currentTarget.textContent,
+            dropdownOpen: false
+        })
         const categories = this.categories.map(category => {
             return(
-                <DropdownItem>
+                <DropdownItem color='primary'>
                     <div  onClick={onChangeDropdownValue}>{category}</div>
                 </DropdownItem>
             );
         });
         return(
-            <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} toggle={toggleDropDown}>
+            <InputGroupButtonDropdown addonType="append" isOpen={dropdownOpen} onMouseEnter={dropDownOpenHandle} onMouseLeave={dropDownCloseHandle}>
                 <DropdownToggle caret>
                     {this.state.dropdownValue}
                 </DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu color='primary'>
                     {categories}
                 </DropdownMenu>
             </InputGroupButtonDropdown>
         )
+    }
+
+    renderEnterSearchOption(){
+        const currentOption = this.state.isAdvancedSearch ? 'Normal Search' : 'Advanced Search';
+        return (
+            <div>
+                <FontAwesomeIcon icon={faExchangeAlt} style={{marginRight: '10px'}}/>
+                {currentOption}
+            </div>
+        );
+    }
+
+    renderLeaveSearchOption(){
+        const currentOption = this.state.isAdvancedSearch ? 'Advanced Search' :  'Normal Search';
+        return (
+            <div>
+                {currentOption}
+            </div>
+        );
+    }
+
+    renderSwitchSearchOption(){
+        const handleMouseLeave = () => this.setState({isSwitchSearchOptionEnter: false});
+        const handleMouseEnter = () => this.setState({isSwitchSearchOptionEnter: true});
+        const currentOption = this.state.isSwitchSearchOptionEnter ? this.renderEnterSearchOption() : this.renderLeaveSearchOption();
+        return(
+            <InputGroupAddon addonType="prepend" style={{marginRight: '10px'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                    <AwesomeButton type="primary" onPress={this.handleSwitchSearchOption}>
+                                        {currentOption}
+                                    </AwesomeButton>
+                                </InputGroupAddon>
+        );
     }
 
     render(){
@@ -180,37 +230,66 @@ export default class SearchJob extends Component{
 
         const listSearchItem = this.state.isAdvancedSearch ? this.renderListSearchItem() : (null);
     
-        const listCategoryDropDown = this.renderListCategoryDropDown()
+        const listCategoryDropDown = this.renderListCategoryDropDown();
+
+        const switchSearchOption = this.renderSwitchSearchOption();
 
         return(
-                <Container>
-                    <Form>
-                        <FormGroup>
+                <Container style={{marginTop: '10px'}}>
+                    <Form  style={{border:'1px solid #3385FF', padding: '5px'}} onSubmit={e => e.preventDefault()}>
+                        <FormGroup style={{margin: '0px'}}>
                             <InputGroup>
+
+                                {switchSearchOption}
 
                                 {addSearchItem}
 
-                                <Input type="keyword" name="keyword" id="searchJobKeyword" placeholder="Enter keyword" width="60%" onChange={onSearchBoxChange}/>
+                                <Input style={{height:'90%'}} type="keyword" name="keyword" id="searchJobKeyword" placeholder="Enter keyword" onChange={onSearchBoxChange}/>
                                 
                                 {listCategoryDropDown}
 
-                                <InputGroupAddon addonType="append" className='small-margin-left'>
-                                    <Button color='primary' onClick={this.onAdvancedSearchClick}>
-                                        Advanced Search
-                                    </Button>
+                                <InputGroupAddon addonType='append' className='small-margin-left'>
+                                    <AwesomeButton type="primary">
+                                        <FontAwesomeIcon icon={faSearch}/>
+                                    </AwesomeButton>
                                 </InputGroupAddon>
 
                             </InputGroup>
                         </FormGroup>
                         
                         {listSearchItem}
-
-                        <ListGroup className='justify-content-end'>
-                            <Button color='primary'>
-                                Find
-                            </Button>
-                        </ListGroup>
                     </Form>
+                    <ListGroup style={{marginTop: "10px", border:'1px solid #3385FF'}}>
+                        <Recruitment 
+                            jobName='Full-stack React Development'
+                            location='Quận 3, TP HCM'
+                            field='Công nghệ thông tin'
+                            companyName='Đại học Khoa học tự nhiên'
+                            salary='20,000,000 VND'
+                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
+                                        Tham gia đầy đủ BHXH, BHYT, BHTN. K'
+                            />
+                        <Recruitment 
+                            jobName='Full-stack React Development'
+                            location='Quận 3, TP HCM'
+                            field='Công nghệ thông tin'
+                            companyName='Đại học Khoa học tự nhiên'
+                            salary='20,000,000 VND'
+                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
+                                        Tham gia đầy đủ BHXH, BHYT, BHTN. Khám sức khỏe định kỳ cho nhân viên.
+                                        Môi trường thân thiện, đội ngũ nhân viên trẻ năng động, Sếp siêu tâm lý và thoải mái.'
+                            />
+                        <Recruitment 
+                            jobName='Full-stack React Development'
+                            location='Quận 3, TP HCM'
+                            field='Công nghệ thông tin'
+                            companyName='Đại học Khoa học tự nhiên'
+                            salary='20,000,000 VND'
+                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
+                                        Tham gia đầy đủ BHXH, BHYT, BHTN. Khám sức khỏe định kỳ cho nhân viên.
+                                        Môi trường thân thiện, đội ngũ nhân viên trẻ năng động, Sếp siêu tâm lý và thoải mái.'
+                            />
+                    </ListGroup>
                 </Container>
         );
     }
