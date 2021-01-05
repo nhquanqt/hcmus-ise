@@ -13,11 +13,8 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false
 		},
 		ExpiredDate: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			validate: {
-				min: 1
-			}
+			type: Sequelize.DATE,
+			allowNull: false
 		},
 		Description: {
 			type: Sequelize.STRING

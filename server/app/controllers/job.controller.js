@@ -1,5 +1,6 @@
 const db = require("../models");
-const Jobs = db.jobs;
+const Job = db.job;
+const Recruitment = db.recruitment;
 const Op = db.Sequelize.Op;
 
 exports.search = (req, res) => {
@@ -62,7 +63,7 @@ exports.create = (req, res) => {
         JobDescription: req.body.JobDescription
     };
 
-    Jobs.create(job)
+    Job.create(job)
         .then(data => {
             res.send(data);
             console.log("200: Job created");
@@ -76,7 +77,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Jobs.findAll()
+    Job.findAll()
         .then(data => {
             res.send(data);
         })
@@ -90,7 +91,7 @@ exports.findAll = (req, res) => {
 exports.findByMajorID = (req, res) => {
     const majorId = parseInt(req.params.major_id);
 
-    Jobs.findAll({
+    Job.findAll({
         where: {
             MajorID: majorId
         }
@@ -108,7 +109,7 @@ exports.findByMajorID = (req, res) => {
 exports.findByRecruitmentID = (req, res) => {
     const recruitmentId = parseInt(req.params.recruitment_id);
 
-    Jobs.findAll({
+    Job.findAll({
         where: {
             RecruitmentId: recruitmentId
         }
@@ -126,7 +127,7 @@ exports.findByRecruitmentID = (req, res) => {
 exports.findOne = (req, res) => {
     const id = parseInt(req.params.id);
 
-    Jobs.findByPk(id)
+    Job.findByPk(id)
         .then(data => {
             res.send(data);
         })
@@ -140,7 +141,7 @@ exports.findOne = (req, res) => {
 exports.delete = (req, res) => {
     const id = parseInt(req.params.id);
 
-    Jobs.destroy({
+    Job.destroy({
         where: {
             id: id
         }

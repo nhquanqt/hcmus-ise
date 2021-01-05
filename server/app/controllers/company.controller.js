@@ -24,7 +24,8 @@ exports.uploadProfile = (req, res) => {
         if(data.length == 1) {
             // Update
             Company.update(company, {where: {id: data[0].id}})
-            .then(() => {
+            .then(data => {
+                res.send(data);
                 console.log('Update success');
             })
             .catch(err => {
@@ -34,18 +35,18 @@ exports.uploadProfile = (req, res) => {
         else {
             // Create
             Company.create(company)
-            .then(() => {
+            .then(data => {
+                res.send(data);
                 console.log('Update success');
             })
             .catch(err => {
                 console.log('Error', code, err.message);
             });
         }
-        res.send({message: true});
     })
     .catch(err => {
         console.log(err.message);
-        res.send({message: false});
+        res.send({message: err.message});
     });
 }
 
