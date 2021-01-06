@@ -21,7 +21,8 @@ import {
     ModalProps,
     ModalFooter,
     ModalHeader,
-    ModalBodyProps
+    ModalBodyProps,
+    Progress
 } from 'reactstrap';
 
 
@@ -35,26 +36,26 @@ import {
     faUserCog
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {withRouter} from 'react-router';
 
-export default class ApplyRecruitment extends Component{
+class ApplyRecruitment extends Component{
     constructor(props){
         super(props);
 
-        this.jobName = props.jobName;
-        this.companyName = props.companyName;
-        this.description = props.description;
-        this.location = props.location;
-        this.date = props.date;
-        this.expiredDate = props.expiredDate;
-        this.field = props.field;
-        this.salary = props.salary;
-        this.yearsOfExperience = props.yearsOfExperience;
-        this.jobType = props.jobType;
-        this.skills = props.skills;
+        this.jobName = props.recruitment.jobName;
+        this.companyName = props.recruitment.companyName;
+        this.location = props.recruitment.location;
+        this.date = props.recruitment.date;
+        this.expiredDate = props.recruitment.expiredDate;
+        this.field = props.recruitment.field;
+        this.salary = props.recruitment.salary;
+        this.yearsOfExperience = props.recruitment.yearsOfExperience;
+        this.jobType = props.recruitment.jobType;
+        this.listJobDescription = props.recruitment.listJobDescription;
 
-        this.listJobDescription = props.listJobDescription;
+        this.listJobRequirement = props.recruitment.listJobRequirement;
 
-        this.listJobRequirement = props.listJobRequirement;
+        this.listSkill = props.recruitment.listSkill;
 
         this.handleOnClickApplyWithCV = this.handleOnClickApplyWithCV.bind(this);
         this.handleOnClickApplyWithoutCV = this.handleOnClickApplyWithoutCV.bind(this);
@@ -89,6 +90,36 @@ export default class ApplyRecruitment extends Component{
         this.setState({
             isApplyWithoutCVModalOpen: !this.state.isApplyWithoutCVModalOpen
         });
+    }
+
+    renderSkill(skill){
+        const percent = 100*(parseInt(skill.level)/9);
+        let levelName = 'beginner';
+        if(skill.level <= 5)
+            levelName = 'intermediate';
+        else if(skill.level <= 6)
+            levelName = 'upper-intermediate';
+        else if(skill.level <= 8)
+            levelName = 'advanced';
+        else
+            levelName = 'expert'
+        return(
+            <div style={{marginTop: '5px', marginBottom: '5px'}}>
+                {skill.name}
+                <Progress value={Math.round(percent)}>
+                    {levelName}
+                </Progress>
+            </div>
+        );
+    }
+
+    renderListSkill(){
+        const listSkill = this.listSkill.map((skill) => this.renderSkill(skill));
+        return(
+            <div style={{maxWidth: '100%'}}>
+                {listSkill}
+            </div>
+        );
     }
 
     renderUnorderedList(listString){
@@ -139,6 +170,7 @@ export default class ApplyRecruitment extends Component{
         
         const jobDescription = this.renderListJobDescription();
         const jobRequirement = this.renderListJobRequirement();
+        const listSkill = this.renderListSkill();
 
         return(
             <Container style={{maxWidth: '80%'}}>
@@ -216,7 +248,7 @@ export default class ApplyRecruitment extends Component{
                                 {jobType}<br/>
                                 <FontAwesomeIcon icon={faUserCog} style={{marginTop: '30px'}} className='small-margin-right'/>
                                 <b>Skills</b><br/>
-                                {skills}<br/>
+                                {listSkill}
                             </Col>
                         </Row>
                     </Container>
@@ -224,4 +256,4 @@ export default class ApplyRecruitment extends Component{
             </Container>
         );
     }
-}
+} export default withRouter(ApplyRecruitment)
