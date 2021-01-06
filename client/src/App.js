@@ -8,9 +8,10 @@ import ApplyRecruitment from './components/apply-recruitment.components';
 
 class App extends Component {
     render () {
+        const router = SearchJob.renderRouter();
         return (
             <div>
-                <SearchJob />
+                {router}
             </div>
         );
     }
