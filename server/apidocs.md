@@ -70,7 +70,7 @@ Request sample:
     "DateOfBirth": "2000-01-26",
     "PhoneNumber": "0888888888",
     "Location": "Ho Chi Minh City",
-    "CV": "public/resume/6094343012.pdf"
+    "CV": "/public/resume/1609924057890.pdf"
 }
 ```
 Response sample:
@@ -82,7 +82,7 @@ Response sample:
     "DateOfBirth": "2000-01-26T00:00:00.000Z",
     "PhoneNumber": "0888888888",
     "Location": "Ho Chi Minh City",
-    "CV": "public/resume/6094343012.pdf",
+    "CV": "/public/resume/1609924057890.pdf",
     "updatedAt": "2021-01-05T08:45:42.580Z",
     "createdAt": "2021-01-05T08:45:42.580Z"
 }
@@ -254,7 +254,7 @@ Request sample:
     "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
     "SeekerID": 2,
     "ApplyDate": "2021-01-29",
-    "ApplyCV": "public/resume/6094343012.pdf"
+    "ApplyCV": "/public/resume/1609924057890.pdf"
 }
 ```
 
@@ -275,7 +275,7 @@ Response sample:
         "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
         "SeekerID": 2,
         "ApplyDate": "2021-01-29",
-        "ApplyCV": "public/resume/6094343012.pdf"
+        "ApplyCV": "/public/resume/1609924057890.pdf"
     }
 ]
 ```
