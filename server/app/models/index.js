@@ -20,9 +20,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.job = require("./job.model.js")(sequelize, Sequelize);
-db.majors = require("./major.model.js")(sequelize, Sequelize);
+db.major = require("./major.model.js")(sequelize, Sequelize);
 db.company = require("./company.model.js")(sequelize, Sequelize);
-db.fields = require("./field.model.js")(sequelize, Sequelize);
+db.field = require("./field.model.js")(sequelize, Sequelize);
 db.recruitment = require("./recruitment.model.js")(sequelize, Sequelize);
 db.seeker = require("./seeker.model.js")(sequelize, Sequelize);
 db.education_detail = require("./educationDetail.model.js")(sequelize, Sequelize);
@@ -40,16 +40,16 @@ db.write_review_seeker = require("./writeReviewSeeker.model.js")(sequelize, Sequ
 db.user.belongsTo(db.user_type, {foreignKey: "UserTypeID"});
 db.user_log.belongsTo(db.user, {foreignKey: "UserID"});
 
-db.job.belongsTo(db.majors, {foreignKey: "MajorID"});
+db.job.belongsTo(db.major, {foreignKey: "MajorID"});
 db.job.belongsTo(db.recruitment, {foreignKey: "RecruitmentID"});
 db.recruitment.belongsTo(db.company, {foreignKey: "CompanyID"});
-db.company.belongsTo(db.fields, {foreignKey: "FieldID"});
+db.company.belongsTo(db.field, {foreignKey: "FieldID"});
 db.company.belongsTo(db.user, {foreignKey: "UserID"});
 
 db.seeker.belongsTo(db.user, {foreignKey: "UserID"});
 db.education_detail.belongsTo(db.seeker, {foreignKey: "SeekerID"});
 db.skill_detail.belongsTo(db.seeker, {foreignKey: "SeekerID"});
-db.education_detail.belongsTo(db.majors, {foreignKey: "MajorID"});
+db.education_detail.belongsTo(db.major, {foreignKey: "MajorID"});
 db.skill_detail.belongsTo(db.skill_set, {foreignKey: "SkillSetID"});
 
 module.exports = db;

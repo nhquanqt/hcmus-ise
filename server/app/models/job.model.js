@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.UUID
 		},
 		MajorID: {
-            type: Sequelize.INTEGER
+            type: Sequelize.UUID
         },
         JobName: {
             type: Sequelize.STRING

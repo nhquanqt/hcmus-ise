@@ -1,39 +1,75 @@
+const { company } = require("../models");
 const db = require("../models");
 const Job = db.job;
 const Recruitment = db.recruitment;
+const Major = db.major;
 const Op = db.Sequelize.Op;
+const Company = db.company;
 
 exports.search = (req, res) => {
 
     const code = 13644634
 
-    var query = req.body;
+    var query = JSON.parse(JSON.stringify(req.body));
     
-    if(query.name == undefined) {
-        query.name = ''
+    if(query.JobName == undefined) {
+        query.JobName = ''
     }
-    if(query.min == undefined) {
-        query.min = 0
+    if(query.MinSalary == undefined) {
+        query.MinSalary = 0
     }
-    if(query.max == undefined) {
-        query.max = 100000000000000000000000
+    if(query.MaxSalary == undefined) {
+        query.MaxSalary = 100000000000000000000000
     }
+    if(query.CompanyName == undefined) {
+        query.CompanyName = ''
+    }
+    if(query.Location == undefined) {
+        query.Location = ''
+    }
+    if(query.MajorName == undefined) {
+        query.MajorName = ''
+    }
+    
 
     Job.findAll({
         where: {
             JobName: {
-                [Op.like]: '%' + req.body.name + '%'
-            },                
+                [Op.like]: '%' + query.JobName + '%'
+            }
         },
-        include: [{
-            model: Recruitment,
-            where: {
-                Salary: {
-                    [Op.gte]: req.body.min,
-                    [Op.lte]: req.body.max
+        include: [
+            {
+                model: Recruitment,
+                where: {
+                    Salary: {
+                        [Op.gte]: query.MinSalary,
+                        [Op.lte]: query.MaxSalary
+                    }
+                },
+                include: [
+                    {
+                        model: Company,
+                        where: {
+                            CompanyName: {
+                                [Op.like]: '%' + query.CompanyName + '%'
+                            },
+                            Location: {
+                                [Op.like]: '%' + query.Location + '%'
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                model: Major,
+                where: {
+                    MajorName: {
+                        [Op.like]: '%' + query.MajorName + '%'
+                    }
                 }
             }
-        }]
+        ]
     })
     .then(data => {
         console.log("Run job search success");
