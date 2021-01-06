@@ -36,9 +36,16 @@ import {
     faPlusSquare,
     faSearch,
     faMinusSquare,
-    faExchangeAlt
+    faExchangeAlt,
+    faRecycle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import{
+    Router, Route, Switch, Link,
+    withRouter,
+    Redirect
+} from 'react-router-dom'
+import ApplyRecruitment from './apply-recruitment.components';
 
 class SearchItem extends Component{
     constructor(props){
@@ -72,7 +79,7 @@ class SearchItem extends Component{
     }
 }
 
-export default class SearchJob extends Component{
+class SearchJob extends Component{
 
     constructor(props){
         super(props);
@@ -80,6 +87,9 @@ export default class SearchJob extends Component{
         this.onAddSearchItemClick = this.onAddSearchItemClick.bind(this);
         this.onSearchItemDeleteClick = this.onSearchItemDeleteClick.bind(this);
         this.handleSwitchSearchOption = this.handleSwitchSearchOption.bind(this);
+        this.handleSubmitSearch = this.handleSubmitSearch.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleApplyRecruitmentClick = this.handleApplyRecruitmentClick.bind(this);
 
         this.categories = ['category1', 'category2', 'category3', 'category4']
 
@@ -90,7 +100,10 @@ export default class SearchJob extends Component{
             nextItemId: 0,
             currentKeyword: '',
             isAdvancedSearch: false,
-            isSwitchSearchOptionEnter: false
+            isSwitchSearchOptionEnter: false,
+            recruitments: [],
+            currentRecruitmentCount: 0,
+            currentSelectedRecruitmentId: 0,
         }
 
     }
@@ -133,6 +146,57 @@ export default class SearchJob extends Component{
         this.setState({
             isAdvancedSearch: !this.state.isAdvancedSearch
         });
+    }
+
+    handleSubmitSearch(e){
+        e.preventDefault();
+        this.handleSearch();
+    }
+
+    handleSearch(){
+        this.setState({
+            recruitments: this.state.recruitments.concat([
+                {
+                    jobName: 'Full-stack React Development',
+                    location: 'Quận 3, TP HCM',
+                    field: 'Công nghệ thông tin',
+                    date: '06-01-2020',
+                    expiredDate: '20-01-2020',
+                    yearsOfExperience: '1 year',
+                    jobType: 'fulltime',
+                    companyName: 'Đại học Khoa học tự nhiên',
+                    salary: '20,000,000 VND',
+                    listDescription: ['ĐH KHTN mong muốn cộng tác với các lập trình viên Back-end có kinh nghiệm, có đam mê và nhiệt huyết trong việc phát triển sản phẩm, cung cấp các giải pháp giải quyết các bài toán liên quan đến quản lý trải nghiệm khách hàng;',
+                    'Có khả năng nắm bắt và ứng dụng nhanh chóng các công nghệ mới (GoLang, NodeJS…);',
+                    'Có khả năng thiết kế (Architecture và Detail Design) và phát triển sản phẩm trên nền tảng công nghệ mới;',
+                    'Tương tác với các thiết bị điều khiển thông minh (IoT);',
+                    'Làm việc trực tiếp với khách hàng, đối tác trong và ngoài nước;',
+                    'Hỗ trợ triển khai sản phẩm ở các thị trường trong và ngoài nước;',
+                    'Thông tin chi tiết thêm sẽ trao đổi khi phỏng vấn.'],
+                    listRequirement: ['ĐH KHTN mong muốn cộng tác với các lập trình viên Back-end có kinh nghiệm, có đam mê và nhiệt huyết trong việc phát triển sản phẩm, cung cấp các giải pháp giải quyết các bài toán liên quan đến quản lý trải nghiệm khách hàng;',
+                    'Có khả năng nắm bắt và ứng dụng nhanh chóng các công nghệ mới (GoLang, NodeJS…);',
+                    'Có khả năng thiết kế (Architecture và Detail Design) và phát triển sản phẩm trên nền tảng công nghệ mới;',
+                    'Tương tác với các thiết bị điều khiển thông minh (IoT);',
+                    'Làm việc trực tiếp với khách hàng, đối tác trong và ngoài nước;',
+                    'Hỗ trợ triển khai sản phẩm ở các thị trường trong và ngoài nước;',
+                    'Thông tin chi tiết thêm sẽ trao đổi khi phỏng vấn.'],
+                    listSkill: [
+                        {name: 'javascript', level: '9'},
+                        {name: 'reactjs', level: '6'},
+                        {name: 'frontend', level: '7'},
+                        {name: 'nodejs', level: '4'}],
+                    id: this.state.currentRecruitmentCount
+                }
+            ]),
+            currentRecruitmentCount: this.state.currentRecruitmentCount + 1
+        })
+    }
+
+    handleApplyRecruitmentClick(id){
+        this.setState({
+            currentSelectedRecruitmentId: id
+        });
+        this.props.history.push('/company-name-job-name');
     }
 
     renderAddSearchItem(){
@@ -223,6 +287,46 @@ export default class SearchJob extends Component{
         );
     }
 
+    renderApplyRecruitment(recruitment){
+        return(
+            <ApplyRecruitment recruitment={recruitment}/>
+        );
+    }
+
+    renderRouter(){
+        
+        const path = '/company-name-job-name';
+        return(
+                <Switch>
+                    <Route  path= {path} component = {() => this.renderApplyRecruitment(this.state.recruitments[this.state.currentSelectedRecruitmentId])}/>
+                    <Route path= '/' component = {SearchJob}/>
+                </Switch>
+        );
+    }
+
+    renderRecruitment(recruitment){
+        return(
+            <Recruitment 
+                            jobName= {recruitment.jobName}
+                            location= {recruitment.location}
+                            field= {recruitment.field}
+                            companyName= {recruitment.companyName}
+                            salary= {recruitment.salary}
+                            description={recruitment.listDescription}
+                            handleApplyRecruitmentClick = {this.handleApplyRecruitmentClick}
+                                        />
+        );
+    }
+
+    renderListRecruitment(){
+        const listRecruitment = this.state.recruitments.map(recruitment => this.renderRecruitment(recruitment));
+        return(
+            <ListGroup style={{marginTop: "10px", border:'1px solid #3385FF'}}>
+                {listRecruitment}
+            </ListGroup>
+        )
+    }
+
     render(){
         const onSearchBoxChange = (e) => this.setState({currentKeyword: e.target.value}) 
         
@@ -234,9 +338,11 @@ export default class SearchJob extends Component{
 
         const switchSearchOption = this.renderSwitchSearchOption();
 
+        const listRecruitment = this.renderListRecruitment();
+
         return(
-                <Container style={{marginTop: '10px'}}>
-                    <Form  style={{border:'1px solid #3385FF', padding: '5px'}} onSubmit={e => e.preventDefault()}>
+                <Container style={{marginTop: '10px', maxWidth: '80%'}}>
+                    <Form  style={{border:'1px solid #3385FF', padding: '5px'}} onSubmit={e => this.handleSubmitSearch(e)}>
                         <FormGroup style={{margin: '0px'}}>
                             <InputGroup>
 
@@ -259,38 +365,9 @@ export default class SearchJob extends Component{
                         
                         {listSearchItem}
                     </Form>
-                    <ListGroup style={{marginTop: "10px", border:'1px solid #3385FF'}}>
-                        <Recruitment 
-                            jobName='Full-stack React Development'
-                            location='Quận 3, TP HCM'
-                            field='Công nghệ thông tin'
-                            companyName='Đại học Khoa học tự nhiên'
-                            salary='20,000,000 VND'
-                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
-                                        Tham gia đầy đủ BHXH, BHYT, BHTN. K'
-                            />
-                        <Recruitment 
-                            jobName='Full-stack React Development'
-                            location='Quận 3, TP HCM'
-                            field='Công nghệ thông tin'
-                            companyName='Đại học Khoa học tự nhiên'
-                            salary='20,000,000 VND'
-                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
-                                        Tham gia đầy đủ BHXH, BHYT, BHTN. Khám sức khỏe định kỳ cho nhân viên.
-                                        Môi trường thân thiện, đội ngũ nhân viên trẻ năng động, Sếp siêu tâm lý và thoải mái.'
-                            />
-                        <Recruitment 
-                            jobName='Full-stack React Development'
-                            location='Quận 3, TP HCM'
-                            field='Công nghệ thông tin'
-                            companyName='Đại học Khoa học tự nhiên'
-                            salary='20,000,000 VND'
-                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
-                                        Tham gia đầy đủ BHXH, BHYT, BHTN. Khám sức khỏe định kỳ cho nhân viên.
-                                        Môi trường thân thiện, đội ngũ nhân viên trẻ năng động, Sếp siêu tâm lý và thoải mái.'
-                            />
-                    </ListGroup>
+                    
+                    {listRecruitment}
                 </Container>
         );
     }
-}
+} export default withRouter(SearchJob)
