@@ -8,8 +8,10 @@ import ApplyRecruitment from './components/apply-recruitment.components';
 
 class App extends Component {
     render () {
+        const router = SearchJob.renderRouter();
         return (
             <div>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <div>
 <<<<<<< HEAD
@@ -32,6 +34,9 @@ class App extends Component {
 =======
                 <SearchJob />
 >>>>>>> Add route and parameters-loading component
+=======
+                {router}
+>>>>>>> fixed
             </div>
         );
     }

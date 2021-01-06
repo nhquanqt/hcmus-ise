@@ -293,7 +293,7 @@ class SearchJob extends Component{
         );
     }
 
-    renderRouter(){
+    static renderRouter(){
         
         const path = '/company-name-job-name';
         return(
