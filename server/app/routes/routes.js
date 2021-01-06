@@ -6,6 +6,7 @@ const Company = db.company;
 const Recruitment = db.recruitment;
 const Job = db.job;
 const Op = db.Sequelize.Op;
+const Apply = db.apply;
 
 module.exports = app => {
 
@@ -20,13 +21,15 @@ module.exports = app => {
     router.post('/user/signup', user.signup);
 
     router.post('/seeker/uploadProfile', seeker.uploadProfile);
+    router.post('/seeker/applyJob', seeker.applyJob);
 
     router.post('/company/uploadProfile', company.uploadProfile);
     router.post('/company/postJob', company.postJob);
+    router.get('/company/getApplies', company.getApplied);
 
     router.get('/jobs/all', job.findAll);
     router.get('/jobs/id/:id', job.findOne);
     router.get('/jobs/search', job.search);
-  
+
     app.use('/api', router);
 };

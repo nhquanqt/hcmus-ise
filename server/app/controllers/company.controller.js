@@ -3,6 +3,25 @@ const Company = db.company;
 const Job = db.job;
 const Recruitment = db.recruitment;
 
+exports.getApplied = (req, res) => {
+    var query = JSON.parse(JSON.stringify(req.body));
+
+    const code = 53391468;
+
+    Apply.findAll({
+        where: {
+            RecruimentID: query.RecruimentID
+        }
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.send({message: err.message});
+        console.log('Error (' + code + '): ' + err.message);
+    });
+}
+
 exports.uploadProfile = (req, res) => {
 
     const company = {

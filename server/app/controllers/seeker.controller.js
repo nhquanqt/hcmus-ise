@@ -1,6 +1,27 @@
 const db = require("../models");
 const Seeker = db.seeker;
 
+exports.applyJob = (req, res) => {
+    const apply = {
+        RecruimentID: req.body.RecruimentID,
+        SeekerID: req.body.SeekerID,
+        ApplyDate: req.body.ApplyDate,
+        ApplyCV: req.body.ApplyCV
+    };
+
+    const code = 84847435;
+
+    Apply.create(apply)
+    .then(data => {
+        res.send(data);
+        console.log("Apply sent");
+    })
+    .catch(err => {
+        res.send({message: err.message});
+        console.log('Error (' + code + '): ' + err.message);
+    });
+}
+
 exports.uploadProfile = (req, res) => {
 
     const seeker = {

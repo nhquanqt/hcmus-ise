@@ -70,7 +70,7 @@ Request sample:
     "DateOfBirth": "2000-01-26",
     "PhoneNumber": "0888888888",
     "Location": "Ho Chi Minh City",
-    "CV": "123e4567-e89b-12d3-a456-426614174000"
+    "CV": "public/resume/6094343012.pdf"
 }
 ```
 Response sample:
@@ -82,7 +82,7 @@ Response sample:
     "DateOfBirth": "2000-01-26T00:00:00.000Z",
     "PhoneNumber": "0888888888",
     "Location": "Ho Chi Minh City",
-    "CV": "123e4567-e89b-12d3-a456-426614174000",
+    "CV": "public/resume/6094343012.pdf",
     "updatedAt": "2021-01-05T08:45:42.580Z",
     "createdAt": "2021-01-05T08:45:42.580Z"
 }
@@ -240,6 +240,42 @@ Response sample:
             "id": "41803620-4f33-11eb-8152-4b06b0a79247",
             "MajorName": "Information Technolory"
         }
+    }
+]
+```
+
+## Apply Job
+```
+POST /api/seeker/applyJob
+```
+Request sample:
+```
+{
+    "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
+    "SeekerID": 2,
+    "ApplyDate": "2021-01-29",
+    "ApplyCV": "public/resume/6094343012.pdf"
+}
+```
+
+## Get Applies
+```
+GET /api/company/getApplies
+```
+Request sample:
+```
+{
+    "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247"
+}
+```
+Response sample:
+```
+[
+    {
+        "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
+        "SeekerID": 2,
+        "ApplyDate": "2021-01-29",
+        "ApplyCV": "public/resume/6094343012.pdf"
     }
 ]
 ```

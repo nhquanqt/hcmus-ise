@@ -40,6 +40,10 @@ app.post('/api/image/upload', upload.single('image'), (req, res) => {
     res.send(req.file);
 });
 
+app.post('/api/resume/upload', upload.single('resume'), (req, res) => {
+    res.send(req.file);
+});
+
 app.use('/public', express.static('public'))
 
 require('./app/routes/routes')(app);

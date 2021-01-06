@@ -24,6 +24,7 @@ db.major = require("./major.model.js")(sequelize, Sequelize);
 db.company = require("./company.model.js")(sequelize, Sequelize);
 db.field = require("./field.model.js")(sequelize, Sequelize);
 db.recruitment = require("./recruitment.model.js")(sequelize, Sequelize);
+db.apply = require("./apply.model.js")(sequelize, Sequelize);
 db.seeker = require("./seeker.model.js")(sequelize, Sequelize);
 db.education_detail = require("./educationDetail.model.js")(sequelize, Sequelize);
 db.skill_detail = require("./skillDetail.model.js")(sequelize, Sequelize);
@@ -51,5 +52,8 @@ db.education_detail.belongsTo(db.seeker, {foreignKey: "SeekerID"});
 db.skill_detail.belongsTo(db.seeker, {foreignKey: "SeekerID"});
 db.education_detail.belongsTo(db.major, {foreignKey: "MajorID"});
 db.skill_detail.belongsTo(db.skill_set, {foreignKey: "SkillSetID"});
+
+db.apply.belongsTo(db.recruitment, {foreignKey: "RecruimentID"});
+db.apply.belongsTo(db.seeker, {foreignKey: "SeekerID"});
 
 module.exports = db;
