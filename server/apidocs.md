@@ -70,7 +70,11 @@ Request sample:
     "DateOfBirth": "2000-01-26",
     "PhoneNumber": "0888888888",
     "Location": "Ho Chi Minh City",
+<<<<<<< HEAD
     "CV": "123e4567-e89b-12d3-a456-426614174000"
+=======
+    "CV": "/public/resume/1609924057890.pdf"
+>>>>>>> server
 }
 ```
 Response sample:
@@ -82,7 +86,11 @@ Response sample:
     "DateOfBirth": "2000-01-26T00:00:00.000Z",
     "PhoneNumber": "0888888888",
     "Location": "Ho Chi Minh City",
+<<<<<<< HEAD
     "CV": "123e4567-e89b-12d3-a456-426614174000",
+=======
+    "CV": "/public/resume/1609924057890.pdf",
+>>>>>>> server
     "updatedAt": "2021-01-05T08:45:42.580Z",
     "createdAt": "2021-01-05T08:45:42.580Z"
 }
@@ -195,15 +203,25 @@ GET /api/jobs/search
 Request sample:
 ```
 {
+<<<<<<< HEAD
     "name": "back-end",
     "min": 100,
     "max": 20000
+=======
+    "JobName": "back-end",
+    "MinSalary": 100,
+    "MaxSalary": 20000,
+    "CompanyName": "University of Science",
+    "Location": "Ho Chi Minh City",
+    "MajorName": "Information Technolory"
+>>>>>>> server
 }
 ```
 Response sample:
 ```
 [
     {
+<<<<<<< HEAD
         "id": "d5de8020-4f32-11eb-bcd1-27dd6677f467",
         "RecruitmentID": "d5dc5d40-4f32-11eb-bcd1-27dd6677f467",
         "MajorID": null,
@@ -222,6 +240,77 @@ Response sample:
             "createdAt": "2021-01-05T08:48:51.000Z",
             "updatedAt": "2021-01-05T08:48:51.000Z"
         }
+=======
+        "id": "41831c50-4f33-11eb-87b0-4b06b0a79247",
+        "RecruitmentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
+        "MajorID": "41803620-4f33-11eb-8152-4b06b0a79247",
+        "JobName": "React.js developer",
+        "JobType": null,
+        "JobDescription": "This is another sample job",
+        "createdAt": "2021-01-05T08:51:52.000Z",
+        "updatedAt": "2021-01-05T08:51:52.000Z",
+        "recruitment": {
+            "id": "41803620-4f33-11eb-87b0-4b06b0a79247",
+            "CompanyID": 1,
+            "RecruitmentDate": "2021-02-26T00:00:00.000Z",
+            "ExpiredDate": "2021-03-26T00:00:00.000Z",
+            "Description": "This is another sample recruitment",
+            "Salary": 50000,
+            "createdAt": "2021-01-05T08:51:52.000Z",
+            "updatedAt": "2021-01-05T08:51:52.000Z",
+            "company": {
+                "id": 1,
+                "UserID": 1,
+                "FieldID": 2,
+                "CompanyName": "University of Science",
+                "Location": "Ho Chi Minh City",
+                "CompanyEmail": "hcmus@hcmus.com",
+                "CompanyDescription": "A sample company",
+                "createdAt": "2021-01-05T08:47:59.000Z",
+                "updatedAt": "2021-01-05T08:47:59.000Z"
+            }
+        }
+        "major": {
+            "id": "41803620-4f33-11eb-8152-4b06b0a79247",
+            "MajorName": "Information Technolory"
+        }
+    }
+]
+```
+
+## Apply Job
+```
+POST /api/seeker/applyJob
+```
+Request sample:
+```
+{
+    "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
+    "SeekerID": 2,
+    "ApplyDate": "2021-01-29",
+    "ApplyCV": "/public/resume/1609924057890.pdf"
+}
+```
+
+## Get Applies
+```
+GET /api/company/getApplies
+```
+Request sample:
+```
+{
+    "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247"
+}
+```
+Response sample:
+```
+[
+    {
+        "RecruimentID": "41803620-4f33-11eb-87b0-4b06b0a79247",
+        "SeekerID": 2,
+        "ApplyDate": "2021-01-29",
+        "ApplyCV": "/public/resume/1609924057890.pdf"
+>>>>>>> server
     }
 ]
 ```

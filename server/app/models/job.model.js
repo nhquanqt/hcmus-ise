@@ -9,7 +9,11 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.UUID
 		},
 		MajorID: {
+<<<<<<< HEAD
             type: Sequelize.INTEGER
+=======
+            type: Sequelize.UUID
+>>>>>>> server
         },
         JobName: {
             type: Sequelize.STRING

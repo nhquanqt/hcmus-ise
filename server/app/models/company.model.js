@@ -6,7 +6,11 @@ module.exports = (sequelize, Sequelize) => {
 			unique: true
 		},
 		FieldID: {
+<<<<<<< HEAD
 			type: Sequelize.INTEGER
+=======
+			type: Sequelize.UUID
+>>>>>>> server
 		},
 		CompanyName: {
 			type: Sequelize.STRING,
