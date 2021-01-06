@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const multer = require('multer')
+const path = require('path')
 
 const app = express();
 
@@ -23,11 +25,23 @@ app.get('/', (req, res) => {
     res.send('hello world');
 });
 
-// require('./app/routes/job.routes')(app);
-// require('./app/routes/major.routes')(app);
-// require('./app/routes/company.routes')(app);
-// require('./app/routes/field.routes')(app);
-// require('./app/routes/recruitment.routes')(app);
+const storage = multer.diskStorage({
+    destination: (req, res, cb) => {
+        cb(null, 'public');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '/' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({storage:storage});
+
+app.post('/api/image/upload', upload.single('image'), (req, res) => {
+    res.send(req.file);
+});
+
+app.use('/public', express.static('public'))
+
 require('./app/routes/routes')(app);
 
 const PORT = 8080;
