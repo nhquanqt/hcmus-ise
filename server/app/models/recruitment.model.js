@@ -24,6 +24,9 @@ module.exports = (sequelize, Sequelize) => {
 			validate: {
 				min: 1
 			}
+		},
+		Requirement: {
+			type: Sequelize.STRING
 		}
 	});
 
