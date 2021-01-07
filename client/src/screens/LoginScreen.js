@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState({ value: '', error: '' })
 
     const options = [{
-            label: < span > EMPLOYEE < /span>,
+            label: <span> EMPLOYEE </span>,
             value: {
                 employee: true
             },
@@ -66,92 +66,81 @@ const LoginScreen = ({ navigation }) => {
         })
     }
 
-    return ( < Background >
-        <
-        BackButton goBack = { navigation.goBack }
-        /> <
-        Logo / >
-        <
-        Header > Welcome back < /Header> 
+    return ( <Background>
+        <BackButton goBack = { navigation.goBack }/> 
+        <Logo />
+        <Header> Welcome back </Header> 
 
-        <
-        div className = "your-required-wrapper"
-        style = {
-            { width: 200, height: 50 }
-        } >
-        <
-        SwitchSelector onChange = { onChange }
-        options = { options }
-        initialSelectedIndex = { initialSelectedIndex }
-        backgroundColor = { "#560CCE" }
-        textColor = { "#FFFFFF" }
-        /> < /
-        div >
-        <
-        TextInput label = "Email"
-        returnKeyType = "next"
-        value = { email.value }
-        onChangeText = {
-            (text) => setEmail({ value: text, error: '' })
-        }
-        error = {!!email.error }
-        errorText = { email.error }
-        autoCapitalize = "none"
-        autoCompleteType = "email"
-        textContentType = "emailAddress"
-        keyboardType = "email-address" /
-        >
-        <
-        TextInput label = "Password"
-        returnKeyType = "done"
-        value = { password.value }
-        onChangeText = {
-            (text) => setPassword({ value: text, error: '' })
-        }
-        error = {!!password.error }
-        errorText = { password.error }
-        secureTextEntry /
-        >
-        <
-        View style = { styles.forgotPassword } >
-        <
-        TouchableOpacity onPress = {
-            () => navigation.navigate('ForgotPasswordScreen')
-        } >
-        <
-        Text style = { styles.forgot } > Forgot your password ? < /Text> < /
-        TouchableOpacity >
-        <
-        /
-        View >
-        <
-        Button mode = "contained"
-        onPress = { onLoginPressed } >
-        Login <
-        /Button>  <GoogleLogin
-        clientId = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-        buttonText = "Sign in with Google"
-        onSuccess = { responseGoogle }
-        onFailure = { responseGoogle }
-        cookiePolicy = { 'single_host_origin' }
-        />    <FacebookLogin
-        appId = "1088597931155576"
-        autoLoad = { false }
-        fields = "name,email,picture"
-        onClick = { responseFacebook }
-        callback = { responseFacebook }
-        />  <
-        View style = { styles.row } >
-        <
-        Text > Don’ t have an account ? < /Text> <
-        TouchableOpacity onPress = {
-            () => navigation.replace('RegisterScreen')
-        } >
-        <
-        Text style = { styles.link } > Sign up < /Text> < /
-        TouchableOpacity > <
-        /View> < /
-        Background >
+        <div className = "your-required-wrapper"
+            style = {
+                { width: 200, height: 50 }
+            } >
+            <SwitchSelector 
+                onChange = { onChange }
+                options = { options }
+                initialSelectedIndex = { initialSelectedIndex }
+                backgroundColor = { "#560CCE" }
+                textColor = { "#FFFFFF" }
+            /> 
+        </div>
+        <TextInput 
+            label = "Email"
+            returnKeyType = "next"
+            value = { email.value }
+            onChangeText = {
+                (text) => setEmail({ value: text, error: '' })
+            }
+            error = {!!email.error }
+            errorText = { email.error }
+            autoCapitalize = "none"
+            autoCompleteType = "email"
+            textContentType = "emailAddress"
+            keyboardType = "email-address" />
+        <TextInput 
+            label = "Password"
+            returnKeyType = "done"
+            value = { password.value }
+            onChangeText = {
+                (text) => setPassword({ value: text, error: '' })
+            }
+            error = {!!password.error }
+            errorText = { password.error }
+            secureTextEntry />
+        <View 
+            style = { styles.forgotPassword } 
+            >
+            <TouchableOpacity onPress = {
+                () => navigation.navigate('ForgotPasswordScreen')
+            } >
+                <Text style = { styles.forgot } > Forgot your password ? </Text> 
+            </TouchableOpacity >
+        </View>
+        <Button 
+            mode = "contained"
+            onPress = { onLoginPressed } >
+            Login 
+        </Button>  
+        <GoogleLogin
+            clientId = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            buttonText = "Sign in with Google"
+            onSuccess = { responseGoogle }
+            onFailure = { responseGoogle }
+            cookiePolicy = { 'single_host_origin' }/>    
+        <FacebookLogin
+            appId = "1088597931155576"
+            autoLoad = { false }
+            fields = "name,email,picture"
+            onClick = { responseFacebook }
+            callback = { responseFacebook }/>  
+        <View style = { styles.row } >
+            <Text> Don’ t have an account ? </Text> 
+            <TouchableOpacity onPress = {
+                () => navigation.replace('RegisterScreen')
+            } >
+            <Text style = { styles.link } > Sign up </Text> 
+            </TouchableOpacity > 
+        </View>
+        </Background >
     )
 }
 
