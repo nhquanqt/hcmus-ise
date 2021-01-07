@@ -11,6 +11,7 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
+import { confirmPasswordValidator } from '../helpers/confirmPasswordValidator'
 import SwitchSelector from "react-native-switch-selector"
 import { StackActions } from '@react-navigation/native'
 
@@ -42,6 +43,7 @@ const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
+    const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' })
 
     const onSignUpPressed = () => {
         const nameError = nameValidator(name.value)
@@ -69,13 +71,16 @@ const RegisterScreen = ({ navigation }) => {
         Header > Create Account < /Header> <
         View style = { styles.row } >
         <
-        TouchableOpacity onPress = {
+        Button mode = "contained"
+        onPress = {
             () => navigation.replace('RegisterEmployerScreen')
+        }
+        style = {
+            { marginTop: 0 }
         } >
-        <
-        Text style = { styles.link } > Employer < /Text> < /
-        TouchableOpacity > <
-        /View>  <
+        Employer <
+        /Button>  < /
+        View > <
         TextInput label = "Full Name"
         returnKeyType = "next"
         value = { name.value }
@@ -112,12 +117,12 @@ const RegisterScreen = ({ navigation }) => {
         <
         TextInput label = "Confirm Password"
         returnKeyType = "done"
-        value = { password.value }
+        value = { confirmPassword.value, password.value }
         onChangeText = {
-            (text) => setPassword({ value: text, error: '' })
+            (text) => setConfirmPassword({ value: text, error: '' })
         }
-        error = {!!password.error }
-        errorText = { password.error }
+        error = {!!confirmPassword.error }
+        errorText = { confirmPassword.error }
         secureTextEntry /
         >
         <

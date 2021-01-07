@@ -64,18 +64,15 @@ const RegisterEmployerScreen = ({ navigation }) => {
         Logo / >
         <
         Header > Create Account < /Header > <
-        div className = "your-required-wrapper"
+        Button mode = "contained"
+        onPress = {
+            () => navigation.replace('RegisterEmployerScreen')
+        }
         style = {
-            { width: 200, height: 50 }
+            { marginTop: 0 }
         } >
-        <
-        SwitchSelector onChange = { onChange }
-        options = { options }
-        initialSelectedIndex = { initialSelectedIndex }
-        backgroundColor = { "#560CCE" }
-        textColor = { "#FFFFFF" }
-        /> < /
-        div >
+        Employee <
+        /Button>
 
         <
         TextInput label = "Full Name"

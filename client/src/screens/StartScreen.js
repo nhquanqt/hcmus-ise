@@ -22,7 +22,7 @@ const StartScreen = ({ navigation }) => ( <
     /Button> <
     Button mode = "outlined"
     onPress = {
-        () => navigation.navigate('RegisterEmployerScreen')
+        () => navigation.navigate('RegisterScreen')
     } >
     Sign Up <
     /Button> < /
