@@ -16,15 +16,17 @@ const StartScreen = ({ navigation }) => ( <
     /Paragraph> <
     Button mode = "contained"
     onPress = {
-        () => navigation.navigate('LoginScreen') } >
+        () => navigation.navigate('LoginScreen')
+    } >
     Login <
     /Button> <
     Button mode = "outlined"
     onPress = {
-        () => navigation.navigate('RegisterScreen') } >
+        () => navigation.navigate('RegisterEmployerScreen')
+    } >
     Sign Up <
-    /Button> <
-    /Background>
+    /Button> < /
+    Background >
 )
 
 export default StartScreen

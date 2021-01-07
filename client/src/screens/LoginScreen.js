@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
         <
         div className = "your-required-wrapper"
         style = {
-            { width: 200, height: 30 }
+            { width: 200, height: 50 }
         } >
         <
         SwitchSelector onChange = { onChange }

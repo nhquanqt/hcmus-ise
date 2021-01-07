@@ -13,6 +13,7 @@ import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
 import SwitchSelector from "react-native-switch-selector"
 
+
 const options = [{
         label: < span > EMPLOYEE < /span>,
         value: {
@@ -34,7 +35,7 @@ const onChange = (newValue) => {
 
 const initialSelectedIndex = options.findIndex(({ value }) => value === "employer");
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterEmployerScreen = ({ navigation }) => {
     const [name, setName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
@@ -62,10 +63,10 @@ const RegisterScreen = ({ navigation }) => {
         /> <
         Logo / >
         <
-        Header > Create Account < /Header> <
+        Header > Create Account < /Header > <
         div className = "your-required-wrapper"
         style = {
-            { width: 200, height: 30 }
+            { width: 200, height: 50 }
         } >
         <
         SwitchSelector onChange = { onChange }
@@ -74,7 +75,9 @@ const RegisterScreen = ({ navigation }) => {
         backgroundColor = { "#560CCE" }
         textColor = { "#FFFFFF" }
         /> < /
-        div > <
+        div >
+
+        <
         TextInput label = "Full Name"
         returnKeyType = "next"
         value = { name.value }
@@ -120,6 +123,34 @@ const RegisterScreen = ({ navigation }) => {
         secureTextEntry /
         >
         <
+        Header > Company < /Header> <
+        TextInput label = "Company's Name"
+        returnKeyType = "next"
+        value = { name.value }
+        onChangeText = {
+            (text) => setName({ value: text, error: '' })
+        }
+        error = {!!name.error }
+        errorText = { name.error }
+        /> <
+        TextInput label = "Company Industry"
+        returnKeyType = "next"
+        value = { name.value }
+        onChangeText = {
+            (text) => setName({ value: text, error: '' })
+        }
+        error = {!!name.error }
+        errorText = { name.error }
+        /> <
+        TextInput label = "Company Location"
+        returnKeyType = "next"
+        value = { name.value }
+        onChangeText = {
+            (text) => setName({ value: text, error: '' })
+        }
+        error = {!!name.error }
+        errorText = { name.error }
+        /> <
         Button mode = "contained"
         onPress = { onSignUpPressed }
         style = {
@@ -152,4 +183,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default RegisterScreen
+export default RegisterEmployerScreen
