@@ -19,9 +19,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-<<<<<<< HEAD
-db.accounts = require("./account.model.js")(sequelize, Sequelize);
-=======
 db.job = require("./job.model.js")(sequelize, Sequelize);
 db.major = require("./major.model.js")(sequelize, Sequelize);
 db.company = require("./company.model.js")(sequelize, Sequelize);
@@ -58,6 +55,5 @@ db.skill_detail.belongsTo(db.skill_set, {foreignKey: "SkillSetID"});
 
 db.apply.belongsTo(db.recruitment, {foreignKey: "RecruimentID"});
 db.apply.belongsTo(db.seeker, {foreignKey: "SeekerID"});
->>>>>>> server
 
 module.exports = db;

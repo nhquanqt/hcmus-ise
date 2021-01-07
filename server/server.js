@@ -1,20 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-<<<<<<< HEAD
-=======
 const multer = require('multer')
 const path = require('path')
->>>>>>> server
 
 const app = express();
 
 var corsOptions = {
-<<<<<<< HEAD
-    origin: "http://localhost:8081",
-=======
     origin: "*",
->>>>>>> server
     secure: false
 };
 
@@ -28,17 +21,10 @@ const db = require("./app/models");
 db.sequelize.sync();
 
 app.get('/', (req, res) => {
-<<<<<<< HEAD
-    // res.json({message: 'Welcome to my website.'});
-=======
->>>>>>> server
     console.log('GET request');
     res.send('hello world');
 });
 
-<<<<<<< HEAD
-require('./app/routes/account.routes')(app);
-=======
 const storage = multer.diskStorage({
     destination: (req, res, cb) => {
         cb(null, 'public');
@@ -61,7 +47,6 @@ app.post('/api/resume/upload', upload.single('resume'), (req, res) => {
 app.use('/public', express.static('public'))
 
 require('./app/routes/routes')(app);
->>>>>>> server
 
 const PORT = 8080;
 app.listen(PORT, () => {
