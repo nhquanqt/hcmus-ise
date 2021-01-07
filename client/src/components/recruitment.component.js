@@ -31,7 +31,6 @@ export default withRouter(class Recruitment extends Component{
         super(props);
 
         this.handleApplyRecruitmentClick = this.handleApplyRecruitmentClick.bind(this);
-        // this.handleApplyRecruitmentClick = (id) => (event) => this.handleApplyRecruitmentClick(id);
 
         // this.state = {
         //     id: "",
@@ -46,15 +45,15 @@ export default withRouter(class Recruitment extends Component{
         // };
 
         this.state = {
-            id: "123123",
-            jobName: "Full-stack React Development",
-            companyName: "Đại học Khoa học tự nhiên",
-            description: "Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...\nTham gia đầy đủ BHXH, BHYT, BHTN. K",
-            location: "Quận 3, TP HCM",
-            date: "",
-            expiredDate: "",
-            field: "Công nghệ thông tin",
-            salary: "20,000,000 VND"
+            id: props.id,
+            jobName: props.jobName,
+            companyName: props.companyName,
+            description: props.description,
+            location: props.jobLocation,
+            date: props.date,
+            expiredDate: props.expiredDate,
+            field: props.field,
+            salary: props.salary
         };
     }
 

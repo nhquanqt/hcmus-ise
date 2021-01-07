@@ -73,19 +73,23 @@ export default withRouter(class ApplyRecruitment extends Component {
     getRecruitment(id) {
         DataService.getRecruitment(id)
         .then(data => {
+            console.log(data.data);
+            const job = data.data;
+            const recruitment = job.recruitment;
+            const company = recruitment.company;
             this.setState({
                 recruitment: {
-                    jobName: '',
-                    companyName: '',
-                    location: '',
-                    date: '',
-                    expiredDate: '',
+                    jobName: job.JobName,
+                    companyName: company.CompanyName,
+                    location: company.Location,
+                    date: recruitment.RecruitmentDate,
+                    expiredDate: recruitment.ExpiredDate,
                     field: '',
-                    salary: '',
+                    salary: recruitment.Salary + ' USD',
                     yearsOfExperience: '',
                     jobType: '',
-                    listJobDescription: [],
-                    listJobRequirement: [],
+                    listJobDescription: [recruitment.Description],
+                    listJobRequirement: [recruitment.Requirement],
                     listSkill: []
                 }
             })

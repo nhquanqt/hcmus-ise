@@ -12,7 +12,7 @@ class App extends Component {
             <div>
                 <Switch>
                     <Route path="/" exact component={SearchJob}/>
-                    <Route path="/recruitment" exact component={Recruitment}/>
+                    {/* <Route path="/recruitment" exact component={Recruitment}/> */}
                     <Route path="/recruitment/apply/:id" exact component={ApplyRecruitment}/>
                 </Switch>
             </div>

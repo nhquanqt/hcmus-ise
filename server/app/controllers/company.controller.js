@@ -76,7 +76,8 @@ exports.postJob = (req, res) => {
         RecruitmentDate: req.body.RecruitmentDate,
         ExpiredDate: req.body.ExpiredDate,
         Description: req.body.Description,
-        Salary: req.body.Salary
+        Salary: req.body.Salary,
+        Requirement: req.body.Requirement
     };
 
     const code = 34357246;

@@ -1,7 +1,12 @@
 module.exports = (sequelize, Sequelize) => {
 	const Seeker = sequelize.define("seeker", {
+		id: {
+			type: Sequelize.UUID,
+			primaryKey: true,
+			defaultValue: Sequelize.UUIDV1
+		},
 		UserID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.UUID,
 			allowNull: false,
 			unique: true
 		},
@@ -22,7 +27,7 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false
 		},
 		CV: {
-			type: Sequelize.UUID
+			type: Sequelize.STRING
 		}
 	});
 

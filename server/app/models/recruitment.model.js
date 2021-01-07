@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV1
         },
 		CompanyID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.UUID,
 		},
 		RecruitmentDate: {
 			type: Sequelize.DATE,

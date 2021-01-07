@@ -39,6 +39,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Recruitment from './recruitment.component'
+import DataService from '../services/service'
 
 class SearchItem extends Component{
     constructor(props){
@@ -145,42 +146,43 @@ export default withRouter(class SearchJob extends Component {
     }
 
     handleSearch(){
-        this.setState({
-            recruitments: this.state.recruitments.concat([
-                {
-                    jobName: 'Full-stack React Development',
-                    location: 'Quận 3, TP HCM',
-                    field: 'Công nghệ thông tin',
-                    date: '06-01-2020',
-                    expiredDate: '20-01-2020',
-                    yearsOfExperience: '1 year',
-                    jobType: 'fulltime',
-                    companyName: 'Đại học Khoa học tự nhiên',
-                    salary: '20,000,000 VND',
-                    listDescription: ['ĐH KHTN mong muốn cộng tác với các lập trình viên Back-end có kinh nghiệm, có đam mê và nhiệt huyết trong việc phát triển sản phẩm, cung cấp các giải pháp giải quyết các bài toán liên quan đến quản lý trải nghiệm khách hàng;',
-                    'Có khả năng nắm bắt và ứng dụng nhanh chóng các công nghệ mới (GoLang, NodeJS…);',
-                    'Có khả năng thiết kế (Architecture và Detail Design) và phát triển sản phẩm trên nền tảng công nghệ mới;',
-                    'Tương tác với các thiết bị điều khiển thông minh (IoT);',
-                    'Làm việc trực tiếp với khách hàng, đối tác trong và ngoài nước;',
-                    'Hỗ trợ triển khai sản phẩm ở các thị trường trong và ngoài nước;',
-                    'Thông tin chi tiết thêm sẽ trao đổi khi phỏng vấn.'],
-                    listRequirement: ['ĐH KHTN mong muốn cộng tác với các lập trình viên Back-end có kinh nghiệm, có đam mê và nhiệt huyết trong việc phát triển sản phẩm, cung cấp các giải pháp giải quyết các bài toán liên quan đến quản lý trải nghiệm khách hàng;',
-                    'Có khả năng nắm bắt và ứng dụng nhanh chóng các công nghệ mới (GoLang, NodeJS…);',
-                    'Có khả năng thiết kế (Architecture và Detail Design) và phát triển sản phẩm trên nền tảng công nghệ mới;',
-                    'Tương tác với các thiết bị điều khiển thông minh (IoT);',
-                    'Làm việc trực tiếp với khách hàng, đối tác trong và ngoài nước;',
-                    'Hỗ trợ triển khai sản phẩm ở các thị trường trong và ngoài nước;',
-                    'Thông tin chi tiết thêm sẽ trao đổi khi phỏng vấn.'],
-                    listSkill: [
-                        {name: 'javascript', level: '9'},
-                        {name: 'reactjs', level: '6'},
-                        {name: 'frontend', level: '7'},
-                        {name: 'nodejs', level: '4'}],
-                    id: this.state.currentRecruitmentCount
-                }
-            ]),
-            currentRecruitmentCount: this.state.currentRecruitmentCount + 1
+
+        DataService.searchRercuitments({})
+        .then(data => {
+            const tmp = JSON.parse(JSON.stringify(data.data));
+            this.setState({
+                recruitments: [],
+                currentRecruitmentCount: 0
+            })
+            for(var i = 0; i < tmp.length; ++i) {
+                const job = tmp[i];
+                const recruitment = job.recruitment;
+                const company = recruitment.company;
+                this.setState({
+                    recruitments: this.state.recruitments.concat([
+                        {
+                            jobName: job.JobName,
+                            location: company.Location,
+                            field: '',
+                            date: recruitment.RecruitmentDate,
+                            expiredDate: recruitment.ExpiredDate,
+                            yearsOfExperience: '',
+                            jobType: '',
+                            companyName: company.CompanyName,
+                            salary: recruitment.Salary + ' USD',
+                            listDescription: [recruitment.Description],
+                            listRequirement: [recruitment.Requirement],
+                            listSkill: [],
+                            id: recruitment.id
+                        }
+                    ]),
+                    currentRecruitmentCount: this.state.currentRecruitmentCount + 1
+                });
+            }
         })
+        .catch(err => {
+            console.log(err.message);
+        });
     }
 
     renderAddSearchItem(){
@@ -274,12 +276,15 @@ export default withRouter(class SearchJob extends Component {
     renderRecruitment(recruitment){
         return(
             <Recruitment 
-                            jobName= {recruitment.jobName}
-                            location= {recruitment.location}
-                            field= {recruitment.field}
-                            companyName= {recruitment.companyName}
-                            salary= {recruitment.salary}
+                            id={recruitment.id}
+                            jobName={recruitment.jobName}
+                            jobLocation={recruitment.location}
+                            field={recruitment.field}
+                            companyName={recruitment.companyName}
+                            salary={recruitment.salary}
                             description={recruitment.listDescription}
+                            date={recruitment.date}
+                            expiredDate={recruitment.expiredDate}
                                         />
         );
     }

@@ -1,11 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
 	const SkillDetail = sequelize.define("skill_detail", {
+        id: {
+			type: Sequelize.UUID,
+			primaryKey: true,
+			defaultValue: Sequelize.UUIDV1
+		},
         SeekerID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.UUID,
 			allowNull: false
 		},
 		SkillSetID: {
-			type: Sequelize.INTEGER
+			type: Sequelize.UUID
 		},
 		SkillName: {
             type: Sequelize.STRING,
