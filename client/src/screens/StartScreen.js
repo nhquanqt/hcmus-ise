@@ -29,7 +29,7 @@ const StartScreen = (props, {navigation}) => {
                 mode = "outlined"
                 onPress = {
                     () => {
-                        props.history.push('/signup');
+                        props.history.push('/seeker/signup');
                     }
                 } >
                 Sign Up 

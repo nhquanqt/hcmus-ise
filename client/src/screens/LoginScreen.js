@@ -10,14 +10,15 @@ import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
-import SwitchSelector from "react-native-switch-selector"
+// import SwitchSelector from "react-native-switch-selector"
 import { employee, employer } from '../components/Logo'
 import ReactDOM from 'react-dom'
 import GoogleLogin from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
+import {withRouter} from 'react-router-dom'
 
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = (props, { navigation }) => {
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
 
@@ -60,86 +61,97 @@ const LoginScreen = ({ navigation }) => {
             setPassword({...password, error: passwordError })
             return
         }
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Dashboard' }],
-        })
+        // navigation.reset({
+        //     index: 0,
+        //     routes: [{ name: 'Dashboard' }],
+        // })
+        props.history.push('/dashboard');
     }
 
-    return ( <Background>
-        <BackButton goBack = { navigation.goBack }/> 
-        <Logo />
-        <Header> Welcome back </Header> 
-
-        <div className = "your-required-wrapper"
-            style = {
-                { width: 200, height: 50 }
-            } >
-            <SwitchSelector 
-                onChange = { onChange }
-                options = { options }
-                initialSelectedIndex = { initialSelectedIndex }
-                backgroundColor = { "#560CCE" }
-                textColor = { "#FFFFFF" }
+    return ( 
+        <Background>
+            <BackButton goBack = {
+                    () => {
+                        props.history.push('/');
+                    }
+                }
             /> 
-        </div>
-        <TextInput 
-            label = "Email"
-            returnKeyType = "next"
-            value = { email.value }
-            onChangeText = {
-                (text) => setEmail({ value: text, error: '' })
-            }
-            error = {!!email.error }
-            errorText = { email.error }
-            autoCapitalize = "none"
-            autoCompleteType = "email"
-            textContentType = "emailAddress"
-            keyboardType = "email-address" />
-        <TextInput 
-            label = "Password"
-            returnKeyType = "done"
-            value = { password.value }
-            onChangeText = {
-                (text) => setPassword({ value: text, error: '' })
-            }
-            error = {!!password.error }
-            errorText = { password.error }
-            secureTextEntry />
-        <View 
-            style = { styles.forgotPassword } 
-            >
-            <TouchableOpacity onPress = {
-                () => navigation.navigate('ForgotPasswordScreen')
-            } >
-                <Text style = { styles.forgot } > Forgot your password ? </Text> 
-            </TouchableOpacity >
-        </View>
-        <Button 
-            mode = "contained"
-            onPress = { onLoginPressed } >
-            Login 
-        </Button>  
-        <GoogleLogin
-            clientId = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-            buttonText = "Sign in with Google"
-            onSuccess = { responseGoogle }
-            onFailure = { responseGoogle }
-            cookiePolicy = { 'single_host_origin' }/>    
-        <FacebookLogin
-            appId = "1088597931155576"
-            autoLoad = { false }
-            fields = "name,email,picture"
-            onClick = { responseFacebook }
-            callback = { responseFacebook }/>  
-        <View style = { styles.row } >
-            <Text> Don’ t have an account ? </Text> 
-            <TouchableOpacity onPress = {
-                () => navigation.replace('RegisterScreen')
-            } >
-            <Text style = { styles.link } > Sign up </Text> 
-            </TouchableOpacity > 
-        </View>
+            <Logo />
+            <Header> Welcome back </Header> 
+
+            <div className = "your-required-wrapper"
+                style = {
+                    { width: 200, height: 50 }
+                } >
+                {/* <SwitchSelector 
+                    onChange = { onChange }
+                    options = { options }
+                    initialSelectedIndex = { initialSelectedIndex }
+                    backgroundColor = { "#560CCE" }
+                    textColor = { "#FFFFFF" }
+                />  */}
+            </div>
+            <TextInput 
+                label = "Email"
+                returnKeyType = "next"
+                value = { email.value }
+                onChangeText = {
+                    (text) => setEmail({ value: text, error: '' })
+                }
+                error = {!!email.error }
+                errorText = { email.error }
+                autoCapitalize = "none"
+                autoCompleteType = "email"
+                textContentType = "emailAddress"
+                keyboardType = "email-address" />
+            <TextInput 
+                label = "Password"
+                returnKeyType = "done"
+                value = { password.value }
+                onChangeText = {
+                    (text) => setPassword({ value: text, error: '' })
+                }
+                error = {!!password.error }
+                errorText = { password.error }
+                secureTextEntry />
+            <View 
+                style = { styles.forgotPassword } 
+                >
+                <TouchableOpacity onPress = {
+                    // () => navigation.navigate('ForgotPasswordScreen')
+                    () => {}
+                } >
+                    <Text style = { styles.forgot } > Forgot your password ? </Text> 
+                </TouchableOpacity >
+            </View>
+            <Button 
+                mode = "contained"
+                onPress = { onLoginPressed } >
+                Login 
+            </Button>  
+            {/* <GoogleLogin
+                clientId = "658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                buttonText = "Sign in with Google"
+                onSuccess = { responseGoogle }
+                onFailure = { responseGoogle }
+                cookiePolicy = { 'single_host_origin' }/>    
+            <FacebookLogin
+                appId = "1088597931155576"
+                autoLoad = { false }
+                fields = "name,email,picture"
+                onClick = { responseFacebook }
+                callback = { responseFacebook }/>   */}
+            <View style = { styles.row } >
+                <Text> Don’ t have an account ? </Text> 
+                <TouchableOpacity onPress = {
+                    // () => navigation.replace('RegisterScreen')
+                    () => {
+                        props.history.push('/seeker/signup');
+                    }
+                } >
+                <Text style = { styles.link } > Sign up </Text> 
+                </TouchableOpacity > 
+            </View>
         </Background >
     )
 }
@@ -164,4 +176,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default LoginScreen
+export default withRouter(LoginScreen);
