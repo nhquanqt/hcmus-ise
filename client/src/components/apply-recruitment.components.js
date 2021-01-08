@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
-import './style/search-job.css';
+import React, { Component } from 'react';
+import Recruitment from './recruitment.components';
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import {
@@ -26,9 +25,10 @@ import {
     FormGroup,
     InputGroup,
     Input,
-    Form,
-    Label
+    Form
 } from 'reactstrap';
+
+
 import { 
     faMapMarkerAlt,
     faWrench,
@@ -47,57 +47,43 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios'; 
 
-import {Button as MaterialButton} from '@material-ui/core/';
-
-import DataService from '../services/service'
-
-function UploadButton(props) {
-    return (
-        <div>
-            <input
-                id="contained-button-file"
-                type="file"
-                style={{display: "none"}}
-                onChange={props.onChange}
-            />
-            <label htmlFor="contained-button-file">
-                <MaterialButton variant="contained" color="primary" component="span" style={props.style}>
-                    Browse
-                </MaterialButton>
-            </label>
-        </div>
-    );
-}
-
-
-export default withRouter(class ApplyRecruitment extends Component {
-    constructor(props) {
+export default class ApplyRecruitment extends Component{
+    constructor(props){
         super(props);
 
-        this.id = this.props.match.params.id;
+        // this.jobName = props.recruitment.jobName;
+        // this.companyName = props.recruitment.companyName;
+        // this.location = props.recruitment.location;
+        // this.date = props.recruitment.date;
+        // this.expiredDate = props.recruitment.expiredDate;
+        // this.field = props.recruitment.field;
+        // this.salary = props.recruitment.salary;
+        // this.yearsOfExperience = props.recruitment.yearsOfExperience;
+        // this.jobType = props.recruitment.jobType;
+        // this.listDescription = props.recruitment.listDescription;
 
-        this.state = {
-            recruitment: {
-                jobName: '',
-                companyName: '',
-                location: '',
-                date: '',
-                expiredDate: '',
-                field: '',
-                salary: '',
-                yearsOfExperience: '',
-                jobType: '',
-                listJobDescription: [],
-                listJobRequirement: [],
-                listSkill: []
-            },
-            isApplyCVModalOpen: false,
-            isApplyWithCV: false,
-            fullname: '',
-            email: '',
-            phone: '',
-            selectedFile: null
-        };
+        // this.listRequirement = props.recruitment.listRequirement;
+
+        // this.listJobRequirement = props.listJobRequirement;
+
+        // this.listSkill = props.recruitment.listSkill;
+
+        this.jobName = "";
+        this.companyName = "";
+        this.location = "";
+        this.date = "";
+        this.expiredDate = "";
+        this.field = "";
+        this.salary = "";
+        this.yearsOfExperience = "";
+        this.jobType = "";
+        this.listDescription = [];
+
+        this.listRequirement = [];
+
+        this.listJobRequirement = [];
+
+        this.listSkill = [];
 
         this.handleOnClickApply = this.handleOnClickApply.bind(this);
         this.handleOnClickSendApply = this.handleOnClickSendApply.bind(this);
@@ -106,39 +92,14 @@ export default withRouter(class ApplyRecruitment extends Component {
         this.handleOnClickApplyWithoutCV = this.handleOnClickApplyWithoutCV.bind(this);
         this.handleSubmitForm = this.handleSubmitForm.bind(this);
 
-    }
-
-    componentDidMount() {
-        this.getRecruitment(this.props.match.params.id);
-    }
-
-    getRecruitment(id) {
-        DataService.getRecruitment(id)
-        .then(data => {
-            console.log(data.data);
-            const job = data.data;
-            const recruitment = job.recruitment;
-            const company = recruitment.company;
-            this.setState({
-                recruitment: {
-                    jobName: job.JobName,
-                    companyName: company.CompanyName,
-                    location: company.Location,
-                    date: recruitment.RecruitmentDate,
-                    expiredDate: recruitment.ExpiredDate,
-                    field: '',
-                    salary: recruitment.Salary + ' USD',
-                    yearsOfExperience: '',
-                    jobType: '',
-                    listJobDescription: [recruitment.Description],
-                    listJobRequirement: [recruitment.Requirement],
-                    listSkill: []
-                }
-            })
-        })
-        .catch(err => {
-            console.log(err.message);
-        });
+        this.state = {
+            isApplyCVModalOpen: false,
+            isApplyWithCV: false,
+            fullname: '',
+            email: '',
+            phone: '',
+            selectedFile: null
+        }
     }
 
     handleFileChange = event => {
@@ -152,21 +113,9 @@ export default withRouter(class ApplyRecruitment extends Component {
     }
 
     handleOnClickSendApply(){
-        
-        var isSended = true;
-
-        if(this.state.isApplyWithCV)
-        {
-            isSended &= this.handleFileUpload();
-        }
-
-        if(isSended)
-        {
-            this.setState({
-                isApplyCVModalOpen: !this.state.isApplyCVModalOpen
-            });
-            alert("Great! You have sent an application.");
-        }
+        this.setState({
+            isApplyCVModalOpen: !this.state.isApplyCVModalOpen
+        });
     }
 
     handleOnClickApplyWithCV(){
@@ -184,27 +133,50 @@ export default withRouter(class ApplyRecruitment extends Component {
     }
 
     handleFileUpload(){
-        if(this.state.selectedFile == null)
-        {
-            alert("Please upload your CV");
-            // do something
-            return false;
-        }
-
         const formData = new FormData();
 
-        formData.append('resume', this.state.selectedFile, this.state.selectedFile.name);
+        formData.append('myFile', this.state.selectedFile, this.state.selectdFile.name);
 
-        axios.post('http://localhost:8080/api/resume/upload/', formData)
-        .then(() => {
-            this.state.selectedFile = null;
-        })
-
-        return true;
+        axios.post('api/uploadfile', formData);
     }
 
     handleSubmitForm(){
-        
+
+    }
+
+    renderUnorderedList(listString){
+        const list = listString.map(item => {
+            return(
+                <li style={{marginTop: '5px'}}>
+                    {item}
+                </li>
+            );
+        });
+        return(
+            <ul>
+                {list}
+            </ul>
+        );
+    }
+
+    renderListJobRequirement(){
+        const listRequirement = this.renderUnorderedList(this.listRequirement);
+        return(
+            <div style={{textAlign: 'justify'}}>
+                <b>Job Requirement:</b>
+                {listRequirement}
+            </div>
+        );
+    }
+
+    renderListJobDescription(){
+        const listDescription = this.renderUnorderedList(this.listDescription);
+        return(
+            <div style={{textAlign: 'justify'}}>
+                <b>Job Description:</b>
+                {listDescription}
+            </div>
+        );
     }
 
     renderSkill(skill){
@@ -229,45 +201,10 @@ export default withRouter(class ApplyRecruitment extends Component {
     }
 
     renderListSkill(){
-        const listSkill = this.state.recruitment.listSkill.map((skill) => this.renderSkill(skill));
+        const listSkill = this.listSkill.map((skill) => this.renderSkill(skill));
         return(
             <div style={{maxWidth: '100%'}}>
                 {listSkill}
-            </div>
-        );
-    }
-
-    renderUnorderedList(listString){
-        const list = listString.map(item => {
-            return(
-                <li style={{marginTop: '5px'}}>
-                    {item}
-                </li>
-            );
-        });
-        return(
-            <ul>
-                {list}
-            </ul>
-        );
-    }
-
-    renderListJobRequirement(){
-        const listRequirement = this.renderUnorderedList(this.state.recruitment.listJobRequirement);
-        return(
-            <div style={{textAlign: 'justify'}}>
-                <b>Job Requirement:</b>
-                {listRequirement}
-            </div>
-        );
-    }
-
-    renderListJobDescription(){
-        const listDescription = this.renderUnorderedList(this.state.recruitment.listJobDescription);
-        return(
-            <div style={{textAlign: 'justify'}}>
-                <b>Job Description:</b>
-                {listDescription}
             </div>
         );
     }
@@ -276,9 +213,9 @@ export default withRouter(class ApplyRecruitment extends Component {
         return(
             <div style={{fontSize: '25px'}}>
                 Applying to
-                <span style={{color: '#4033FF', marginLeft: '10px', marginRight: '10px'}}>{this.state.recruitment.jobName}</span>
+                <span style={{color: '#4033FF', marginLeft: '10px', marginRight: '10px'}}>{this.jobName}</span>
                 at
-                <span style={{color: '#4033FF', marginLeft: '10px', marginRight: '10px'}}>{this.state.recruitment.companyName}</span>
+                <span style={{color: '#4033FF', marginLeft: '10px', marginRight: '10px'}}>{this.companyName}</span>
             </div>
         );
     }
@@ -313,8 +250,7 @@ export default withRouter(class ApplyRecruitment extends Component {
 
         if(this.state.isApplyWithCV)
         {
-            // const file = this.state.selectedFile ? this.state.selectedFile.lastModifiedDate.toDateString() : null;
-            const file = this.state.selectedFile ? this.state.selectedFile.name : null;
+            const file = this.state.selectedFile ? this.state.selectedFile.lastModifiedDate.toDateString() : null;
             return(
                 <InputGroup style={{margin: '15px'}}>
                     <InputGroupAddon addonType='append' style={{padding: '5px', marginRight: '49px'}}>
@@ -323,7 +259,7 @@ export default withRouter(class ApplyRecruitment extends Component {
                     </InputGroupAddon>
                     <Input style={{height:'90%', maxWidth: '70%', float: 'right', fontSize: '16px'}} type="email" name="email" placeholder="Select CV: *.doc, *.docx, *.pdf" value={file} disabled='disabled'/>
                     <InputGroupAddon addonType="prepend" style={{marginLeft: '10px'}}>
-                        <UploadButton style={{height: '87%'}} onChange={this.handleFileChange}/>
+                        <Button color='primary' type='button' style={{height: '87%'}}>Browse</Button>
                     </InputGroupAddon>
                 </InputGroup>
             );
@@ -388,17 +324,16 @@ export default withRouter(class ApplyRecruitment extends Component {
         );
     }
 
-    render() {
-
-        const jobName = this.state.recruitment.jobName;
-        const companyName = this.state.recruitment.companyName;
-        const description = this.state.recruitment.description;
-        const location = this.state.recruitment.location;
-        const field = this.state.recruitment.field;
-        const salary = this.state.recruitment.salary;
-        const yearsOfExperience = this.state.recruitment.yearsOfExperience;
-        const jobType = this.state.recruitment.jobType;
-        const skills = this.state.recruitment.skills;
+    render(){
+        const jobName = this.jobName;
+        const companyName = this.companyName;
+        const description = this.description;
+        const location = this.location;
+        const field = this.field;
+        const salary = this.salary;
+        const yearsOfExperience = this.yearsOfExperience;
+        const jobType = this.jobType;
+        const skills = this.skills;
         
         const jobDescription = this.renderListJobDescription();
         const jobRequirement = this.renderListJobRequirement();
@@ -466,4 +401,4 @@ export default withRouter(class ApplyRecruitment extends Component {
             </Container>
         );
     }
-})
+}

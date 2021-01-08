@@ -12,6 +12,7 @@ class App extends Component {
         return (
             <div>
                 <Switch>
+                    <Route path="/check" exact component={ApplyRecruitment} />
                     <Route path={["/", "/index"]} exact component={StartScreen} />
                     <Route path="/login" exact component={LoginScreen} />
                     <Route path="/seeker/signup" exact component={RegisterScreen} />
