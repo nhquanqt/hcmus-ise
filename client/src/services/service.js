@@ -1,7 +1,5 @@
 import http from "../http-common";
 
-const host_url = `http://localhost:8080`
-
 class DataService {
     getRecruitment(id) {
         return http.get(`/recruitments/id/${id}`);
