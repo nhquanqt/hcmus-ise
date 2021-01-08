@@ -50,6 +50,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios'; 
 import Autocomplete from './Autocomplete';
 import NumericInput from 'react-numeric-input';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class Skill extends Component{
     constructor(props){
@@ -110,6 +113,7 @@ export default class AddRecruitment extends Component{
             isSkillNameMatch: false,
             isJobTypeMatch: false,
             isMajorMatch: false,
+            date: null,
         }
     }
 
@@ -349,6 +353,14 @@ export default class AddRecruitment extends Component{
                                 </InputGroup>
                                 <InputGroup style={{marginBottom: '15px'}}>
                                     <textarea style={{width: '100%', height: '133px'}} value={this.state.requirement} onChange={onRequirementChanged}/>
+                                </InputGroup>
+
+                                
+                                <InputGroup style={{fontSize: '14px', marginTop: '20px'}}>
+                                    <b>ExpiredDate*:</b>
+                                </InputGroup>
+                                <InputGroup style={{marginBottom: '15px'}}>
+                                    <DatePicker selected={this.state.date} onChange={selectedDate => this.setState({date: selectedDate})}/>
                                 </InputGroup>
                             </FormGroup>
                     <Button color='primary' style={{width: '100%'}} type='submit'>
