@@ -1,5 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
 	const Recruitment = sequelize.define("recruitment", {
+		id: {
+            type: Sequelize.UUID,
+            primaryKey: true,
+            defaultValue: Sequelize.UUIDV1
+        },
 		CompanyID: {
 			type: Sequelize.INTEGER,
 		},
@@ -8,11 +13,8 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false
 		},
 		ExpiredDate: {
-			type: Sequelize.INTEGER,
-			allowNull: false,
-			validate: {
-				min: 1
-			}
+			type: Sequelize.DATE,
+			allowNull: false
 		},
 		Description: {
 			type: Sequelize.STRING
@@ -22,6 +24,9 @@ module.exports = (sequelize, Sequelize) => {
 			validate: {
 				min: 1
 			}
+		},
+		Requirement: {
+			type: Sequelize.STRING
 		}
 	});
 

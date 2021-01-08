@@ -1,6 +1,85 @@
+const { company } = require("../models");
 const db = require("../models");
-const Jobs = db.jobs;
+const Job = db.job;
+const Recruitment = db.recruitment;
+const Major = db.major;
 const Op = db.Sequelize.Op;
+const Company = db.company;
+
+exports.search = (req, res) => {
+
+    const code = 13644634
+
+    var query = JSON.parse(JSON.stringify(req.body));
+    
+    if(query.JobName == undefined) {
+        query.JobName = ''
+    }
+    if(query.MinSalary == undefined) {
+        query.MinSalary = 0
+    }
+    if(query.MaxSalary == undefined) {
+        query.MaxSalary = 100000000000000000000000
+    }
+    if(query.CompanyName == undefined) {
+        query.CompanyName = ''
+    }
+    if(query.Location == undefined) {
+        query.Location = ''
+    }
+    if(query.MajorName == undefined) {
+        query.MajorName = ''
+    }
+    
+
+    Job.findAll({
+        where: {
+            JobName: {
+                [Op.like]: '%' + query.JobName + '%'
+            }
+        },
+        include: [
+            {
+                model: Recruitment,
+                where: {
+                    Salary: {
+                        [Op.gte]: query.MinSalary,
+                        [Op.lte]: query.MaxSalary
+                    }
+                },
+                include: [
+                    {
+                        model: Company,
+                        where: {
+                            CompanyName: {
+                                [Op.like]: '%' + query.CompanyName + '%'
+                            },
+                            Location: {
+                                [Op.like]: '%' + query.Location + '%'
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                model: Major,
+                where: {
+                    MajorName: {
+                        [Op.like]: '%' + query.MajorName + '%'
+                    }
+                }
+            }
+        ]
+    })
+    .then(data => {
+        console.log("Run job search success");
+        res.send(data);
+    })
+    .catch(err => {
+        console.log('Error (' + code + '): ' + err.message);
+        res.status(500).send(err);
+    })
+}
 
 exports.create = (req, res) => {
     console.log('Creating new job');
@@ -20,7 +99,7 @@ exports.create = (req, res) => {
         JobDescription: req.body.JobDescription
     };
 
-    Jobs.create(job)
+    Job.create(job)
         .then(data => {
             res.send(data);
             console.log("200: Job created");
@@ -34,7 +113,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Jobs.findAll()
+    Job.findAll()
         .then(data => {
             res.send(data);
         })
@@ -48,7 +127,7 @@ exports.findAll = (req, res) => {
 exports.findByMajorID = (req, res) => {
     const majorId = parseInt(req.params.major_id);
 
-    Jobs.findAll({
+    Job.findAll({
         where: {
             MajorID: majorId
         }
@@ -66,7 +145,7 @@ exports.findByMajorID = (req, res) => {
 exports.findByRecruitmentID = (req, res) => {
     const recruitmentId = parseInt(req.params.recruitment_id);
 
-    Jobs.findAll({
+    Job.findAll({
         where: {
             RecruitmentId: recruitmentId
         }
@@ -84,7 +163,7 @@ exports.findByRecruitmentID = (req, res) => {
 exports.findOne = (req, res) => {
     const id = parseInt(req.params.id);
 
-    Jobs.findByPk(id)
+    Job.findByPk(id)
         .then(data => {
             res.send(data);
         })
@@ -98,7 +177,7 @@ exports.findOne = (req, res) => {
 exports.delete = (req, res) => {
     const id = parseInt(req.params.id);
 
-    Jobs.destroy({
+    Job.destroy({
         where: {
             id: id
         }
