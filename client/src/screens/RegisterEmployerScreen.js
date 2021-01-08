@@ -83,15 +83,6 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                     { marginTop: 0 }
                 } > Employee </Button>
 
-            <TextInput
-                label = "Full Name"
-                returnKeyType = "next"
-                value = { name.value }
-                onChangeText = {
-                    (text) => setName({ value: text, error: '' })
-                }
-                error = {!!name.error }
-                errorText = { name.error }/>
             <TextInput 
                 label = "Email"
                 returnKeyType = "next"
