@@ -2,20 +2,23 @@ const db = require("../models");
 const User = db.user;
 
 exports.login = (req, res) => {
+    const AccountEmail = req.query.AccountEmail;
+    const Password = req.query.Password;
     User.findAll({
         where: {
-            Username: req.body.Username,
-            Password: req.body.Password
+            // Username: req.body.Username,
+            AccountEmail: AccountEmail,
+            Password: Password
         }
     })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message
-            });
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message
         });
+    });
 };
 
 exports.signup = (req, res) => {

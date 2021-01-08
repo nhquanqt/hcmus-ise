@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     const WriteReviewCompany = sequelize.define('write_review_company', {
         UserID: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.UUID,
             primaryKey: true
         },
         CompanyID: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.UUID,
             primaryKey: true
         },
         ReviewDate: {

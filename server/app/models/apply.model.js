@@ -1,5 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
     const Apply = sequelize.define('apply', {
+        id: {
+			type: Sequelize.UUID,
+			primaryKey: true,
+			defaultValue: Sequelize.UUIDV1
+		},
         RecruimentID: {
             type: Sequelize.UUID,
             primaryKey: true

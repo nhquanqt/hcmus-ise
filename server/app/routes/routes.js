@@ -31,5 +31,7 @@ module.exports = app => {
     router.get('/jobs/id/:id', job.findOne);
     router.get('/jobs/search', job.search);
 
+    router.get('/recruitments/id/:id', job.findByRecruitmentID);
+
     app.use('/api', router);
 };

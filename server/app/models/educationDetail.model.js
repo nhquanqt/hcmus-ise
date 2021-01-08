@@ -1,11 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
 	const EducationDetail = sequelize.define("education_detail", {
+		id: {
+			type: Sequelize.UUID,
+			primaryKey: true,
+			defaultValue: Sequelize.UUIDV1
+		},
 		SeekerID: {
-			type: Sequelize.INTEGER,
+			type: Sequelize.UUID,
 			allowNull: false
 		},
 		MajorID: {
-			type: Sequelize.INTEGER
+			type: Sequelize.UUID
 		},
 		Degree: {
 			type: Sequelize.STRING,

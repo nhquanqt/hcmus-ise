@@ -10,7 +10,7 @@ exports.search = (req, res) => {
 
     const code = 13644634
 
-    var query = JSON.parse(JSON.stringify(req.body));
+    var query = JSON.parse(JSON.stringify(req.query));
     
     if(query.JobName == undefined) {
         query.JobName = ''
@@ -61,14 +61,14 @@ exports.search = (req, res) => {
                     }
                 ]
             },
-            {
-                model: Major,
-                where: {
-                    MajorName: {
-                        [Op.like]: '%' + query.MajorName + '%'
-                    }
-                }
-            }
+            // {
+            //     model: Major,
+            //     where: {
+            //         MajorName: {
+            //             [Op.like]: '%' + query.MajorName + '%'
+            //         }
+            //     }
+            // }
         ]
     })
     .then(data => {
@@ -143,12 +143,22 @@ exports.findByMajorID = (req, res) => {
 };
 
 exports.findByRecruitmentID = (req, res) => {
-    const recruitmentId = parseInt(req.params.recruitment_id);
+    const recruitmentId = req.params.id;
 
-    Job.findAll({
+    Job.findOne({
         where: {
             RecruitmentId: recruitmentId
-        }
+        },
+        include: [
+            {
+                model: Recruitment,
+                include: [
+                    {
+                        model: Company
+                    }
+                ]
+            }
+        ]
     })
         .then(data => {
             res.send(data);
@@ -161,17 +171,31 @@ exports.findByRecruitmentID = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
 
-    Job.findByPk(id)
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message
-            });
+    Job.findOne({
+        where: {
+            id: id
+        },
+        include: [
+            {
+                model: Recruitment,
+                include: [
+                    {
+                        model: Company
+                    }
+                ]
+            }
+        ]
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message
         });
+    });
 };
 
 exports.delete = (req, res) => {
