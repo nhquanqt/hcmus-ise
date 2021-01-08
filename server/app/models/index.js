@@ -38,7 +38,7 @@ db.write_review_company = require("./writeReviewCompany.model.js")(sequelize, Se
 db.write_review_seeker = require("./writeReviewSeeker.model.js")(sequelize, Sequelize);
 
 
-db.user.belongsTo(db.user_type, {foreignKey: "UserTypeID"});
+// db.user.belongsTo(db.user_type, {foreignKey: "UserTypeID"});
 db.user_log.belongsTo(db.user, {foreignKey: "UserID"});
 
 db.job.belongsTo(db.major, {foreignKey: "MajorID"});

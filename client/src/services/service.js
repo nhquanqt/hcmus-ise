@@ -12,6 +12,22 @@ class DataService {
     login(req) {
         return http.get(`/user/login`, {params: req});
     }
+
+    signup(req) {
+        return http.post(`/user/signup`, req);
+    }
+
+    getUser(id) {
+        return http.get(`/user/id/${id}`);
+    }
+
+    updateSeekerProfile(req) {
+        return http.post(`/seeker/uploadProfile`, req);
+    }
+
+    updateCompanyProfile(req) {
+        return http.post(`/company/uploadProfile`, req);
+    }
 }
 
 export default new DataService();

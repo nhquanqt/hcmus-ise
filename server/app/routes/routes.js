@@ -7,6 +7,7 @@ const Recruitment = db.recruitment;
 const Job = db.job;
 const Op = db.Sequelize.Op;
 const Apply = db.apply;
+const UserType = db.user_type;
 
 module.exports = app => {
 
@@ -20,6 +21,8 @@ module.exports = app => {
     router.get('/user/login', user.login);
     router.post('/user/signup', user.signup);
 
+    router.get('/user/id/:id', user.findOne);
+
     router.post('/seeker/uploadProfile', seeker.uploadProfile);
     router.post('/seeker/applyJob', seeker.applyJob);
 
@@ -32,6 +35,21 @@ module.exports = app => {
     router.get('/jobs/search', job.search);
 
     router.get('/recruitments/id/:id', job.findByRecruitmentID);
+
+    router.post('/user/type', (req, res) => {
+
+        const user_type = {
+            UserTypeName: req.body.UserTypeName
+        };
+
+        UserType.create(user_type)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.send(err.message);
+        });
+    })
 
     app.use('/api', router);
 };

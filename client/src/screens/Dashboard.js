@@ -5,24 +5,30 @@ import Header from '../components/Header'
 import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 
-const Dashboard = (props, { navigation }) => (
-    <Background>
-        <Logo />
-        <Header>Let’s start</Header>
-        <Paragraph>
-            Your amazing app starts here. Open you favorite code editor and start
-            editing this project.
-        </Paragraph>
-        <Button
-            mode="outlined"
-            onPress={() => {
-                    props.history.push('/');
+import CookieService from '../services/CookieService';
+import DataService from '../services/service'
+
+const Dashboard = (props, { navigation }) => {
+    return (
+        <Background>
+            <Logo />
+            <Header>Let’s start</Header>
+            <Paragraph>
+                Your amazing app starts here. Open you favorite code editor and start
+                editing this project.
+            </Paragraph>
+            <Button
+                mode="outlined"
+                onPress={() => {
+                        CookieService.remove("UserID");
+                        props.history.push('/');
+                    }
                 }
-            }
-        >
-          Logout
-        </Button>
-    </Background>
-)
+            >
+            Logout
+            </Button>
+        </Background>
+    )
+}
 
 export default Dashboard

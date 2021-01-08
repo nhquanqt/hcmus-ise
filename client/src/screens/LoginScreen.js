@@ -16,6 +16,7 @@ import GoogleLogin from 'react-google-login'
 import FacebookLogin from 'react-facebook-login'
 import {withRouter} from 'react-router-dom'
 import DataService from '../services/service'
+import CookieService from '../services/CookieService'
 
 const axios = require('axios').default;
 
@@ -74,9 +75,13 @@ const LoginScreen = (props, { navigation }) => {
 
         DataService.login(req)
         .then(data => {
-            console.log(data);
+            // console.log(data);
             if(data.data.length == 1) {
+                CookieService.set("UserID", data.data[0].id, {path: "/"});
                 props.history.push('/dashboard');
+                // props.history.push('/recruitment/search');
+                
+                
             }
             else {
                 // the account is incorrect

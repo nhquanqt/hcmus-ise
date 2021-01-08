@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native-web'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -15,6 +15,8 @@ import { confirmPasswordValidator } from '../helpers/confirmPasswordValidator'
 
 import {withRouter} from 'react-router-dom';
 
+import DataService from '../services/service'
+import CookieService from '../services/CookieService'
 
 const options = [{
         label: <span> EMPLOYEE </span>,
@@ -55,11 +57,20 @@ const RegisterEmployerScreen = (props, { navigation }) => {
             setConfirmPassword({...confirmPassword, error: confirmPasswordError});
             return;
         }
-        // navigation.reset({
-        //     index: 0,
-        //     routes: [{ name: 'Dashboard' }],
-        // })
-        props.history.push('/dashboard');
+
+        const account = {
+            UserType: "company",
+            AccountEmail: email.value,
+            Password: password.value,
+            DisplayName: name.value
+        }
+
+        DataService.signup(account)
+        .then(data => {
+            console.log(data.data.id);
+            CookieService.set("UserID", data.data.id);
+            props.history.push('/dashboard');
+        });
     }
 
     return ( 
@@ -68,8 +79,7 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 () => {
                     props.history.push('/');
                 }
-            }
-            /> 
+            }/> 
             <Logo />
             <Header> Create Account </Header> 
             <Button 
@@ -82,17 +92,8 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 }
                 style = {
                     { marginTop: 0 }
-                } > Employee </Button>
+                } > Move to Seeker? </Button>
 
-            <TextInput
-                label = "Full Name"
-                returnKeyType = "next"
-                value = { name.value }
-                onChangeText = {
-                    (text) => setName({ value: text, error: '' })
-                }
-                error = {!!name.error }
-                errorText = { name.error }/>
             <TextInput 
                 label = "Email"
                 returnKeyType = "next"
@@ -140,7 +141,7 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 error = {!!name.error }
                 errorText = { name.error }
                 /> 
-            <TextInput
+            {/* <TextInput
                 label = "Company Industry"
                 returnKeyType = "next"
                 value = { name.value }
@@ -159,7 +160,7 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 }
                 error = {!!name.error }
                 errorText = { name.error }
-                /> 
+                />  */}
             <Button 
                 mode = "contained"
                 onPress = { onSignUpPressed }

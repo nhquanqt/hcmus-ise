@@ -12,13 +12,11 @@ import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { nameValidator } from '../helpers/nameValidator'
 import { confirmPasswordValidator } from '../helpers/confirmPasswordValidator'
-// import SwitchSelector from "react-native-switch-selector"
-// import { StackActions } from '@react-navigation/native'
-
-// const pushAction = StackActions.push('RegisterEmployerScreen');
-// const popAction = StackActions.pop('RegisterEmployerScreen');
 
 import {withRouter} from 'react-router-dom';
+
+import DataService from '../services/service'
+import CookieService from '../services/CookieService'
 
 const options = [{
         label: <span> EMPLOYEE </span>,
@@ -59,11 +57,20 @@ const RegisterScreen = (props, { navigation }) => {
             setConfirmPassword({...confirmPassword, error: confirmPasswordError});
             return;
         }
-        // navigation.reset({
-        //     index: 0,
-        //     routes: [{ name: 'Dashboard' }],
-        // })
-        props.history.push('/dashboard');
+
+        const account = {
+            UserType: "seeker",
+            AccountEmail: email.value,
+            Password: password.value,
+            DisplayName: name.value
+        }
+
+        DataService.signup(account)
+        .then(data => {
+            console.log(data.data.id);
+            CookieService.set("UserID", data.data.id);
+            props.history.push('/dashboard');
+        });
     }
 
     return ( 
@@ -73,30 +80,19 @@ const RegisterScreen = (props, { navigation }) => {
             } }/> 
             <Logo />
             <Header> Create Account </Header> 
-            <View style = { styles.row } >
-                <Button 
-                    mode = "contained"
-                    onPress = {
-                        // () => navigation.replace('RegisterEmployerScreen')
-                        () => {
-                            props.history.push('/company/signup');
-                        }
+            <Button 
+                mode = "contained"
+                onPress = {
+                    // () => navigation.replace('RegisterEmployerScreen')
+                    () => {
+                        props.history.push('/company/signup');
                     }
-                    style = {
-                        { marginTop: 0 }
-                    } 
-                    > Employer </Button>  
-            </View>
-            <TextInput 
-                label = "Full Name"
-                returnKeyType = "next"
-                value = { name.value }
-                onChangeText = {
-                    (text) => setName({ value: text, error: '' })
                 }
-                error = {!!name.error }
-                errorText = { name.error }
-                />
+                style = {
+                    { marginTop: 0 }
+                } 
+                > Move to Company? </Button>  
+
             <TextInput 
                 label = "Email"
                 returnKeyType = "next"
@@ -133,6 +129,20 @@ const RegisterScreen = (props, { navigation }) => {
                 errorText = { confirmPassword.error }
                 secureTextEntry 
                 />
+
+            <Header> Seeker </Header> 
+
+            <TextInput 
+                label = "Full Name"
+                returnKeyType = "next"
+                value = { name.value }
+                onChangeText = {
+                    (text) => setName({ value: text, error: '' })
+                }
+                error = {!!name.error }
+                errorText = { name.error }
+                />
+
             <Button 
                 mode = "contained"
                 onPress = { onSignUpPressed }
