@@ -10,6 +10,8 @@ import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { nameValidator } from '../helpers/nameValidator'
+import {dobValidator} from '../helpers/dobValidator'
+import {phoneValidator} from '../helpers/phoneValidator'
 import {Button as Button1} from 'react-native'
 import axios from 'axios'; 
 // import SwitchSelector from "react-native-switch-selector"
@@ -36,19 +38,19 @@ const ProfileScreen = (props, { navigation }) => {
     const onSavePressed = () => {
         const firstnameError = nameValidator(firstname.value)
         const lastnameError = nameValidator(lastname.value)
-        const phonenumError = nameValidator(phonenum.value)
+        const phonenumError = phoneValidator(phonenum.value)
         const genderError = nameValidator(gender.value)
-        const emailError = emailValidator(email.value)
-        if (emailError || firstnameError||lastnameError||phonenumError||genderError) {
+        const dobError=dobValidator(dob.value)
+        if (firstnameError||lastnameError||phonenumError||genderError||dobError) {
             alert("Something went wrong please try again!");
             setFirstName({...firstname, error: firstnameError });
             setLastName({...lastname, error: lastnameError });
             setPhoneNum({...phonenum, error: phonenumError });
             setGender({...gender, error: genderError });
-            setEmail({...email, error: emailError });
+            setDob({...dob,error: dobError});
             return;
         }
-        alert("successfully completed!");
+        alert("Successfully completed!");
     }
     const onLogoutPressed=()=>{props.history.push('/login');}
 
@@ -58,7 +60,7 @@ const ProfileScreen = (props, { navigation }) => {
                 style={{
                 flexDirection: "row",
                 height: 75,
-                width:500,
+                width:1000,
                 padding: 20,
                 borderBottomColor: '#000000',
                 borderBottomWidth: 1,
@@ -67,7 +69,8 @@ const ProfileScreen = (props, { navigation }) => {
                 borderRightColor:'#000000',
                 borderRightWidth: 1,
                 borderLeftColor:'#000000',
-                borderLeftWidth: 1
+                borderLeftWidth: 1,
+                backgroundColor:"#BCF1ED"
                 }} >
             <h2>JOB SEARCH</h2>
             <View style={{ flex: 1 }} />
@@ -94,20 +97,6 @@ const ProfileScreen = (props, { navigation }) => {
                 error = {!!firstname.error }
                 errorText = { firstname.error }
                 />
-            <b>Email (*)</b>
-            <TextInput 
-                returnKeyType = "next"
-                value = { email.value }
-                onChangeText = {
-                    (text) => setEmail({ value: text, error: '' })
-                }
-                error = {!!email.error }
-                errorText = { email.error }
-                autoCapitalize = "none"
-                autoCompleteType = "email"
-                textContentType = "emailAddress"
-                keyboardType = "email-address"
-                />
             <b>Gender (*)</b>
             <TextInput 
                 returnKeyType = "done"
@@ -127,6 +116,16 @@ const ProfileScreen = (props, { navigation }) => {
                 }
                 error = {!!address.error }
                 errorText = { address.error }
+                />
+                <b>Country</b>
+            <TextInput
+                returnKeyType = "done"
+                value = { country.value}
+                onChangeText = {
+                    (text) => setCountry({ value: text, error: '' })
+                }
+                error = {!!country.error }
+                errorText = { country.error }
                 />
                 </View>
                 <View style = { styles.col } >
@@ -151,7 +150,7 @@ const ProfileScreen = (props, { navigation }) => {
                 errorText = { phonenum.error }
                 autoCapitalize = "none"
                 />
-                <b>Date of birth</b>
+                <b>Date of birth (*) (dd/mm/yyyy)</b>
             <TextInput
                 returnKeyType = "done"
                 value = { dob.value }
@@ -161,16 +160,7 @@ const ProfileScreen = (props, { navigation }) => {
                 error = {!!dob.error }
                 errorText = { dob.error }
                 />
-                <b>Country</b>
-            <TextInput
-                returnKeyType = "done"
-                value = { country.value}
-                onChangeText = {
-                    (text) => setCountry({ value: text, error: '' })
-                }
-                error = {!!country.error }
-                errorText = { country.error }
-                />
+                
                 </View>
                 
             </View>

@@ -66,7 +66,8 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 borderRightColor:'#000000',
                 borderRightWidth: 1,
                 borderLeftColor:'#000000',
-                borderLeftWidth: 1
+                borderLeftWidth: 1,
+                backgroundColor:"#BCF1ED"
                 }} >
             <h2>JOB SEARCH</h2>
             <View style={{ flex: 1 }} />

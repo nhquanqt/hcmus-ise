@@ -69,13 +69,15 @@ const Createcv = (props, { navigation }) => {
     }
     const onLogoutPressed=()=>{props.history.push('/login');}
 
+    const onProfilePressed=()=>{props.history.push('/profile');}
+
     return ( 
         <Background>
             <View
                 style={{
                 flexDirection: "row",
                 height: 75,
-                width:500,
+                width:1000,
                 padding: 20,
                 borderBottomColor: '#000000',
                 borderBottomWidth: 1,
@@ -84,13 +86,19 @@ const Createcv = (props, { navigation }) => {
                 borderRightColor:'#000000',
                 borderRightWidth: 1,
                 borderLeftColor:'#000000',
-                borderLeftWidth: 1
+                borderLeftWidth: 1,
+                backgroundColor:"#BCF1ED"
                 }} >
             <h2>JOB SEARCH</h2>
             <View style={{ flex: 1 }} />
             <Button1
                 title="Home"
                 onPress={onLogoutPressed}
+            />
+            <Button1
+                title="Profile"
+                color="#00ff00"
+                onPress={onProfilePressed}
             />
             <Button1
                 title="Logout"

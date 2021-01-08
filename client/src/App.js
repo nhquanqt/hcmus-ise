@@ -16,7 +16,8 @@ class App extends Component {
         return (
             <div>
                 <Switch>
-                    <Route path="/" exact component={ProfileScreen} />
+                    <Route path="/" exact component={Createcv} />
+                    <Route path="/profile" exact component={ProfileScreen} />
                     <Route path="/login" exact component={LoginScreen} />
                 </Switch>
             </div>
