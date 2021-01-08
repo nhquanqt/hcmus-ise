@@ -1,0 +1,22 @@
+{
+  "name": "hcmus-ise-app",
+  "version": "1.0.0",
+  "description": "Final project for \"Introduction of Software Engineering\" course",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+<<<<<<< HEAD
+=======
+    "multer": "^1.4.2",
+>>>>>>> server
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  }
+}
