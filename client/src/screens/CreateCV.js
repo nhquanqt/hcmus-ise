@@ -1,15 +1,9 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity,Image } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
-import Logo from '../components/Logo'
 import Header from '../components/Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
-import { nameValidator } from '../helpers/nameValidator'
 import {Button as Button1} from 'react-native'
 // import SwitchSelector from "react-native-switch-selector"
 // import { StackActions } from '@react-navigation/native'
@@ -19,57 +13,15 @@ import {Button as Button1} from 'react-native'
 
 import {withRouter} from 'react-router-dom';
 
-const options = [{
-        label: <span> EMPLOYEE </span>,
-        value: {
-            employee: true
-        },
-        selectedBackgroundColor: "#FFFFFF",
-
-    },
-    {
-        label: "EMPLOYER",
-        value: "employer",
-        selectedBackgroundColor: "#FFFFFF"
-    }
-];
-
-const onChange = (newValue) => {
-    console.log(newValue);
-};
-
 //const initialSelectedIndex = options.findIndex(({ value }) => value === "employer");
 
 const Createcv = (props, { navigation }) => {
-    const [firstname, setFirstName] = useState({ value: '', error: '' })
-    const [lastname, setLastName] = useState({ value: '', error: '' })
-    const [email, setEmail] = useState({ value: '', error: '' })
-    const [phonenum, setPhoneNum] = useState({ value: '', error: '' })
-    const [gender, setGender] = useState({ value: '', error: '' })
-    const [dob, setDob] = useState({ value: '', error: '' })
-    const [address, setAddress] = useState({ value: '', error: '' })
-    const [country, setCountry] = useState({ value: '', error: '' })
-
-    const onSavePressed = () => {
-        const firstnameError = nameValidator(firstname.value)
-        const lastnameError = nameValidator(lastname.value)
-        const phonenumError = nameValidator(phonenum.value)
-        const genderError = nameValidator(gender.value)
-        const emailError = emailValidator(email.value)
-        if (emailError || firstnameError||lastnameError||phonenumError||genderError) {
-            alert("Something went wrong please try again!");
-            setFirstName({...firstname, error: firstnameError });
-            setLastName({...lastname, error: firstnameError });
-            setPhoneNum({...phonenum, error: firstnameError });
-            setGender({...gender, error: firstnameError });
-            setEmail({...email, error: emailError });
-            return;
-        }
-        alert("successfully completed!");
-    }
+    
     const onLogoutPressed=()=>{props.history.push('/login');}
 
     const onProfilePressed=()=>{props.history.push('/profile');}
+
+    //const onHomePressed=()=>{props.history.push('/samplecv');}
 
     return ( 
         <Background>
@@ -106,104 +58,16 @@ const Createcv = (props, { navigation }) => {
                 onPress={onLogoutPressed} />
             </View>
             
-            <Header> User's Profile </Header> 
+            <Header> Some sample CV </Header> 
             <View style = { styles.row } >
-            <View style = { styles.col } >
-            <b>First Name (*)</b>
-            <TextInput 
-                returnKeyType = "next"
-                value = { firstname.value }
-                onChangeText = {
-                    (text) => setFirstName({ value: text, error: '' })
-                }
-                error = {!!firstname.error }
-                errorText = { firstname.error }
-                />
-            <b>Email (*)</b>
-            <TextInput 
-                returnKeyType = "next"
-                value = { email.value }
-                onChangeText = {
-                    (text) => setEmail({ value: text, error: '' })
-                }
-                error = {!!email.error }
-                errorText = { email.error }
-                autoCapitalize = "none"
-                autoCompleteType = "email"
-                textContentType = "emailAddress"
-                keyboardType = "email-address"
-                />
-            <b>Gender (*)</b>
-            <TextInput 
-                returnKeyType = "done"
-                value = { gender.value }
-                onChangeText = {
-                    (text) => setGender({ value: text, error: '' })
-                }
-                error = {!!gender.error }
-                errorText = { gender.error }
-                />
-            <b>Address</b>
-            <TextInput 
-                returnKeyType = "done"
-                value = { address.value}
-                onChangeText = {
-                    (text) => setAddress({ value: text, error: '' })
-                }
-                error = {!!address.error }
-                errorText = { address.error }
-                />
-                </View>
-                <View style = { styles.col } >
-                <b>Last Name (*)</b>
-            <TextInput
-                returnKeyType = "next"
-                value = { lastname.value }
-                onChangeText = {
-                    (text) => setLastName({ value: text, error: '' })
-                }
-                error = {!!lastname.error }
-                errorText = { lastname.error }
-                />
-                <b>Phone Number (*)</b>
-            <TextInput
-                returnKeyType = "next"
-                value = { phonenum.value }
-                onChangeText = {
-                    (text) => setPhoneNum({ value: text, error: '' })
-                }
-                error = {!!phonenum.error }
-                errorText = { phonenum.error }
-                autoCapitalize = "none"
-                />
-                <b>Date of birth</b>
-            <TextInput
-                returnKeyType = "done"
-                value = { dob.value }
-                onChangeText = {
-                    (text) => setDob({ value: text, error: '' })
-                }
-                error = {!!dob.error }
-                errorText = { dob.error }
-                />
-                <b>Country</b>
-            <TextInput
-                returnKeyType = "done"
-                value = { country.value}
-                onChangeText = {
-                    (text) => setCountry({ value: text, error: '' })
-                }
-                error = {!!country.error }
-                errorText = { country.error }
-                />
-                </View>
+            <img src="https://mobilunity.com/wp-content/uploads/2017/07/javascript-developer-cv-example.png" alt="new" width="300" padding="400"
+            />
+
+            <img src="https://s3.amazonaws.com/thumbnails.venngage.com/template/de099396-b569-49ed-82e8-9ce56c31a660.png" alt="new" width="300"
+            />
+            <img src="https://s3.amazonaws.com/thumbnails.venngage.com/template/1087cb79-840e-41c8-a226-86b32fea67ed.png" alt="new" width="300"
+            />
             </View>
-            <Button 
-                mode = "contained"
-                onPress = { onSavePressed }
-                style = {
-                    { marginTop: 24 }
-                } > SAVE </Button> 
             
         </Background>
     )
