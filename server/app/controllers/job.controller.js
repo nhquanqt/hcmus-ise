@@ -10,7 +10,7 @@ exports.search = (req, res) => {
 
     const code = 13644634
 
-    var query = JSON.parse(JSON.stringify(req.body));
+    var query = JSON.parse(JSON.stringify(req.query));
     
     if(query.JobName == undefined) {
         query.JobName = ''

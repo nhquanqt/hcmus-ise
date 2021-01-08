@@ -4,7 +4,7 @@ const Job = db.job;
 const Recruitment = db.recruitment;
 
 exports.getApplied = (req, res) => {
-    var query = JSON.parse(JSON.stringify(req.body));
+    var query = JSON.parse(JSON.stringify(req.query));
 
     const code = 53391468;
 
