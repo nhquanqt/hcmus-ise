@@ -6,7 +6,7 @@ import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
+import BackButton from '../components/BackButton.js'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
@@ -134,7 +134,7 @@ const LoginScreen = (props, { navigation }) => {
                     () => {}
                 } >
                     <Text style = { styles.forgot } > Forgot your password ? </Text> 
-                </TouchableOpacity >
+                </TouchableOpacity>
             </View>
             <Button 
                 mode = "contained"
@@ -162,9 +162,9 @@ const LoginScreen = (props, { navigation }) => {
                     }
                 } >
                 <Text style = { styles.link } > Sign up </Text> 
-                </TouchableOpacity > 
+                </TouchableOpacity> 
             </View>
-        </Background >
+        </Background>
     )
 }
 
