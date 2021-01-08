@@ -11,6 +11,7 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { nameValidator } from '../helpers/nameValidator'
 import {Button as Button1} from 'react-native'
+import axios from 'axios'; 
 // import SwitchSelector from "react-native-switch-selector"
 // import { StackActions } from '@react-navigation/native'
 
@@ -18,25 +19,7 @@ import {Button as Button1} from 'react-native'
 // const popAction = StackActions.pop('RegisterEmployerScreen');
 
 import {withRouter} from 'react-router-dom';
-
-const options = [{
-        label: <span> EMPLOYEE </span>,
-        value: {
-            employee: true
-        },
-        selectedBackgroundColor: "#FFFFFF",
-
-    },
-    {
-        label: "EMPLOYER",
-        value: "employer",
-        selectedBackgroundColor: "#FFFFFF"
-    }
-];
-
-const onChange = (newValue) => {
-    console.log(newValue);
-};
+import SimpleReactFileUpload from './Upload'
 
 //const initialSelectedIndex = options.findIndex(({ value }) => value === "employer");
 
@@ -189,7 +172,25 @@ const ProfileScreen = (props, { navigation }) => {
                 errorText = { country.error }
                 />
                 </View>
+                
             </View>
+            <View>
+                <b>Upload your CV</b>
+                </View>
+            <View style = {{
+                width:445,
+                padding: 20,
+                borderBottomColor: '#000000',
+                borderBottomWidth: 1,
+                borderTopColor:'#000000',
+                borderTopWidth: 1,
+                borderRightColor:'#000000',
+                borderRightWidth: 1,
+                borderLeftColor:'#000000',
+                borderLeftWidth: 1 } }>
+            <SimpleReactFileUpload></SimpleReactFileUpload>
+            </View>
+            
             <Button 
                 mode = "contained"
                 onPress = { onSavePressed }
