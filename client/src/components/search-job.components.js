@@ -39,41 +39,13 @@ import {
     faExchangeAlt
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ApplyRecruitment from './apply-recruitment.components';
+import{
+    Switch, Route, withRouter
+} from 'react-router-dom';
+import DataService from '../services/service';
 
-class SearchItem extends Component{
-    constructor(props){
-        super(props);
-
-        this.handleDeleteClick = (id) => (event) => props.handleDeleteClick(id);
-        this.id = props.id;
-
-        this.state = {
-            keyword: this.props.keyword
-        }
-    }
-
-    render(){
-        return (
-            <Container className='container-search-item' color='success' style={{paddingLeft: '20px', paddingRight: '10px'}}>
-                <Row>
-                    <Col className='row-search-item' sm={{size: 'auto'}} style={{margin: '0px', marginRight: '10px'}}>
-                        <Card style={{padding: '5px', border:'1px solid #3385FF'}}>
-                            {this.state.keyword}
-                        </Card>
-                    </Col>
-                    <Col className='row-search-item-button' sm={{size: 'auto'}}>
-                            <AwesomeButton type="primary" className='button-search-item' onPress={this.handleDeleteClick(this.id)}>
-                                <FontAwesomeIcon icon={faMinusSquare}/>
-                            </AwesomeButton>
-                    </Col>
-                </Row>
-            </Container>
-        );
-    }
-}
-
-export default class SearchJob extends Component{
-
+class SearchBar extends Component{
     constructor(props){
         super(props);
 
@@ -81,18 +53,18 @@ export default class SearchJob extends Component{
         this.onSearchItemDeleteClick = this.onSearchItemDeleteClick.bind(this);
         this.handleSwitchSearchOption = this.handleSwitchSearchOption.bind(this);
 
-        this.categories = ['category1', 'category2', 'category3', 'category4']
+        this.executeSearch = (data) => props.executeSearch(data);
+
+        this.categories = ['category1', 'category2', 'category3', 'category4'];
 
         this.state = {
             listSearchItem: [],
             dropdownOpen: false,
             dropdownValue: this.categories[0],
-            nextItemId: 0,
             currentKeyword: '',
             isAdvancedSearch: false,
             isSwitchSearchOptionEnter: false
-        }
-
+        };
     }
 
     onAddSearchItemClick(){
@@ -135,6 +107,12 @@ export default class SearchJob extends Component{
         });
     }
 
+    handleSubmit(e){
+        e.preventDefault();
+        const data = this.state.currentKeyword;
+        this.executeSearch(data);
+    }
+    
     renderAddSearchItem(){
         return(
             <InputGroupAddon addonType="prepend">
@@ -188,7 +166,7 @@ export default class SearchJob extends Component{
                     {categories}
                 </DropdownMenu>
             </InputGroupButtonDropdown>
-        )
+        );
     }
 
     renderEnterSearchOption(){
@@ -224,6 +202,7 @@ export default class SearchJob extends Component{
     }
 
     render(){
+
         const onSearchBoxChange = (e) => this.setState({currentKeyword: e.target.value}) 
         
         const addSearchItem = this.state.isAdvancedSearch ? this.renderAddSearchItem() : (null);
@@ -235,62 +214,166 @@ export default class SearchJob extends Component{
         const switchSearchOption = this.renderSwitchSearchOption();
 
         return(
-                <Container style={{marginTop: '10px'}}>
-                    <Form  style={{border:'1px solid #3385FF', padding: '5px'}} onSubmit={e => e.preventDefault()}>
-                        <FormGroup style={{margin: '0px'}}>
-                            <InputGroup>
+            <Form  style={{border:'1px solid #3385FF', padding: '5px'}} onSubmit={e => this.handleSubmit(e)}>
+                <FormGroup style={{margin: '0px'}}>
+                    <InputGroup>
 
-                                {switchSearchOption}
+                        {switchSearchOption}
 
-                                {addSearchItem}
+                        {addSearchItem}
 
-                                <Input style={{height:'90%'}} type="keyword" name="keyword" id="searchJobKeyword" placeholder="Enter keyword" onChange={onSearchBoxChange}/>
-                                
-                                {listCategoryDropDown}
-
-                                <InputGroupAddon addonType='append' className='small-margin-left'>
-                                    <AwesomeButton type="primary">
-                                        <FontAwesomeIcon icon={faSearch}/>
-                                    </AwesomeButton>
-                                </InputGroupAddon>
-
-                            </InputGroup>
-                        </FormGroup>
+                        <Input style={{height:'90%'}} type="keyword" name="keyword" id="searchJobKeyword" placeholder="Enter keyword" value={this.state.currentKeyword} onChange={onSearchBoxChange}/>
                         
-                        {listSearchItem}
-                    </Form>
-                    <ListGroup style={{marginTop: "10px", border:'1px solid #3385FF'}}>
-                        <Recruitment 
-                            jobName='Full-stack React Development'
-                            location='Quận 3, TP HCM'
-                            field='Công nghệ thông tin'
-                            companyName='Đại học Khoa học tự nhiên'
-                            salary='20,000,000 VND'
-                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
-                                        Tham gia đầy đủ BHXH, BHYT, BHTN. K'
-                            />
-                        <Recruitment 
-                            jobName='Full-stack React Development'
-                            location='Quận 3, TP HCM'
-                            field='Công nghệ thông tin'
-                            companyName='Đại học Khoa học tự nhiên'
-                            salary='20,000,000 VND'
-                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
-                                        Tham gia đầy đủ BHXH, BHYT, BHTN. Khám sức khỏe định kỳ cho nhân viên.
-                                        Môi trường thân thiện, đội ngũ nhân viên trẻ năng động, Sếp siêu tâm lý và thoải mái.'
-                            />
-                        <Recruitment 
-                            jobName='Full-stack React Development'
-                            location='Quận 3, TP HCM'
-                            field='Công nghệ thông tin'
-                            companyName='Đại học Khoa học tự nhiên'
-                            salary='20,000,000 VND'
-                            description='Chế độ thưởng: Thưởng đột xuất theo tình hình kinh doanh công ty, thưởng sinh nhật Công ty, thưởng n...
-                                        Tham gia đầy đủ BHXH, BHYT, BHTN. Khám sức khỏe định kỳ cho nhân viên.
-                                        Môi trường thân thiện, đội ngũ nhân viên trẻ năng động, Sếp siêu tâm lý và thoải mái.'
-                            />
-                    </ListGroup>
-                </Container>
+                        {listCategoryDropDown}
+
+                        <InputGroupAddon addonType='append' className='small-margin-left'>
+                            <AwesomeButton type="primary">
+                                <FontAwesomeIcon icon={faSearch}/>
+                            </AwesomeButton>
+                        </InputGroupAddon>
+
+                    </InputGroup>
+                </FormGroup>
+                
+                {listSearchItem}
+            </Form>
         );
     }
 }
+
+class SearchItem extends Component{
+    constructor(props){
+        super(props);
+
+        this.handleDeleteClick = (id) => (event) => props.handleDeleteClick(id);
+        this.id = props.id;
+
+        this.state = {
+            keyword: this.props.keyword
+        }
+    }
+
+    render(){
+        return (
+            <Container className='container-search-item' color='success' style={{paddingLeft: '20px', paddingRight: '10px'}}>
+                <Row>
+                    <Col className='row-search-item' sm={{size: 'auto'}} style={{margin: '0px', marginRight: '10px'}}>
+                        <Card style={{padding: '5px', border:'1px solid #3385FF'}}>
+                            {this.state.keyword}
+                        </Card>
+                    </Col>
+                    <Col className='row-search-item-button' sm={{size: 'auto'}}>
+                            <AwesomeButton type="primary" className='button-search-item' onPress={this.handleDeleteClick(this.id)}>
+                                <FontAwesomeIcon icon={faMinusSquare}/>
+                            </AwesomeButton>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
+}
+
+class SearchJob extends Component{
+
+    constructor(props){
+        super(props);
+
+        this.handleApplyRecruitmentClick = this.handleApplyRecruitmentClick.bind(this);
+
+        this.executeSearch = this.executeSearch.bind(this);
+
+        this.state = {
+            recruitments: [],
+            currentRecruitmentCount: 0,
+            currentSelectedRecruitmentId: -1,
+        }
+
+    }
+
+    executeSearch(data){
+        DataService.searchRercuitments({})
+        .then(data => {
+            const tmp = JSON.parse(JSON.stringify(data.data));
+            this.setState({
+                recruitments: [],
+                currentRecruitmentCount: 0
+            })
+            for(var i = 0; i < tmp.length; ++i) {
+                const job = tmp[i];
+                const recruitment = job.recruitment;
+                const company = recruitment.company;
+                this.setState({
+                    recruitments: this.state.recruitments.concat([
+                        {
+                            jobName: job.JobName,
+                            location: company.Location,
+                            field: '',
+                            date: recruitment.RecruitmentDate,
+                            expiredDate: recruitment.ExpiredDate,
+                            yearsOfExperience: '',
+                            jobType: '',
+                            companyName: company.CompanyName,
+                            salary: recruitment.Salary + ' USD',
+                            listDescription: [recruitment.Description],
+                            listRequirement: [recruitment.Requirement],
+                            listSkill: [],
+                            id: recruitment.id
+                        }
+                    ]),
+                    currentRecruitmentCount: this.state.currentRecruitmentCount + 1
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+    }
+
+    handleApplyRecruitmentClick(id){
+        this.setState({
+            currentSelectedRecruitmentId: id
+        });
+        this.props.history.push('/company-name-job-name');
+    }
+
+    renderApplyRecruitmentWithId(recruitmentId){
+        if(recruitmentId === -1)
+            return (null);
+        return(
+            <ApplyRecruitment recruitment={this.state.recruitments[recruitmentId]}/>
+        );
+    }
+
+    renderRecruitment(recruitment){
+        return(
+            <Recruitment 
+                            jobName= {recruitment.jobName}
+                            location= {recruitment.location}
+                            field= {recruitment.field}
+                            companyName= {recruitment.companyName}
+                            salary= {recruitment.salary}
+                            description={recruitment.listDescription}
+                            id={recruitment.id}
+                                        />
+        );
+    }
+
+    renderListRecruitment(){
+        const listRecruitment = this.state.recruitments.map(recruitment => this.renderRecruitment(recruitment));
+        return(
+            <ListGroup style={{marginTop: "10px", border:'1px solid #3385FF'}}>
+                {listRecruitment}
+            </ListGroup>
+        )
+    }
+
+    render(){
+        const listRecruitment = this.renderListRecruitment();
+        return(
+            <Container key='main-search' style={{maxWidth: '100%'}}>
+                <SearchBar executeSearch={this.executeSearch}/>
+                {listRecruitment}
+            </Container>
+        );
+    }
+} export default withRouter(SearchJob);
