@@ -14,8 +14,8 @@ import {Button as Button1} from 'react-native'
 
 import {withRouter} from 'react-router-dom';
 
-import DataService from '../services/service'
 import CookieService from '../services/CookieService'
+import DataService from '../services/service'
 
 const onChange = (newValue) => {
     console.log(newValue);

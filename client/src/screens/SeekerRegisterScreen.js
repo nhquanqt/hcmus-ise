@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native-web'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -39,7 +39,7 @@ const onChange = (newValue) => {
 
 const initialSelectedIndex = options.findIndex(({ value }) => value === "employer");
 
-const RegisterEmployerScreen = (props, { navigation }) => {
+const SeekerRegisterScreen = (props, { navigation }) => {
     const [name, setName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
@@ -59,7 +59,7 @@ const RegisterEmployerScreen = (props, { navigation }) => {
         }
 
         const account = {
-            UserType: "company",
+            UserType: "seeker",
             AccountEmail: email.value,
             Password: password.value,
             DisplayName: name.value
@@ -68,18 +68,16 @@ const RegisterEmployerScreen = (props, { navigation }) => {
         DataService.signup(account)
         .then(data => {
             console.log(data.data.id);
-            CookieService.set("UserID", data.data.id);
+            CookieService.set("UserID", data.data.id, {path: "/"});
             props.history.push('/dashboard');
         });
     }
 
     return ( 
         <Background>
-            <BackButton goBack = { 
-                () => {
-                    props.history.push('/');
-                }
-            }/> 
+            <BackButton goBack = { () => {
+                props.history.push('/');
+            } }/> 
             <Logo />
             <Header> Create Account </Header> 
             <Button 
@@ -87,12 +85,13 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 onPress = {
                     // () => navigation.replace('RegisterEmployerScreen')
                     () => {
-                        props.history.push('/seeker/signup');
+                        props.history.push('/company/signup');
                     }
                 }
                 style = {
                     { marginTop: 0 }
-                } > Move to Seeker? </Button>
+                } 
+                > Move to Company? </Button>  
 
             <TextInput 
                 label = "Email"
@@ -106,9 +105,9 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 autoCapitalize = "none"
                 autoCompleteType = "email"
                 textContentType = "emailAddress"
-                keyboardType = "email-address" 
+                keyboardType = "email-address"
                 />
-            <TextInput
+            <TextInput 
                 label = "Password"
                 returnKeyType = "done"
                 value = { password.value }
@@ -126,13 +125,15 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 onChangeText = {
                     (text) => setConfirmPassword({ value: text, error: '' })
                 }
-                error = {!!password.error }
-                errorText = { password.error }
+                error = {!!confirmPassword.error }
+                errorText = { confirmPassword.error }
                 secureTextEntry 
                 />
-            <Header> Company </Header> 
+
+            <Header> Seeker </Header> 
+
             <TextInput 
-                label = "Company's Name"
+                label = "Full Name"
                 returnKeyType = "next"
                 value = { name.value }
                 onChangeText = {
@@ -140,27 +141,8 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                 }
                 error = {!!name.error }
                 errorText = { name.error }
-                /> 
-            {/* <TextInput
-                label = "Company Industry"
-                returnKeyType = "next"
-                value = { name.value }
-                onChangeText = {
-                    (text) => setName({ value: text, error: '' })
-                }
-                error = {!!name.error }
-                errorText = { name.error }
-                /> 
-            <TextInput 
-                label = "Company Location"
-                returnKeyType = "next"
-                value = { name.value }
-                onChangeText = {
-                    (text) => setName({ value: text, error: '' })
-                }
-                error = {!!name.error }
-                errorText = { name.error }
-                />  */}
+                />
+
             <Button 
                 mode = "contained"
                 onPress = { onSignUpPressed }
@@ -178,7 +160,7 @@ const RegisterEmployerScreen = (props, { navigation }) => {
                     <Text style = { styles.link } > Login </Text> 
                 </TouchableOpacity> 
             </View> 
-        </Background >
+        </Background>
     )
 }
 
@@ -193,4 +175,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withRouter(RegisterEmployerScreen);
+export default withRouter(SeekerRegisterScreen);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native-web'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
@@ -39,7 +39,7 @@ const onChange = (newValue) => {
 
 const initialSelectedIndex = options.findIndex(({ value }) => value === "employer");
 
-const RegisterScreen = (props, { navigation }) => {
+const CompanyRegisterScreen = (props, { navigation }) => {
     const [name, setName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
@@ -59,7 +59,7 @@ const RegisterScreen = (props, { navigation }) => {
         }
 
         const account = {
-            UserType: "seeker",
+            UserType: "company",
             AccountEmail: email.value,
             Password: password.value,
             DisplayName: name.value
@@ -67,31 +67,30 @@ const RegisterScreen = (props, { navigation }) => {
 
         DataService.signup(account)
         .then(data => {
-            console.log(data.data.id);
-            CookieService.set("UserID", data.data.id);
+            CookieService.set("UserID", data.data.id, {path: "/"});
             props.history.push('/dashboard');
         });
     }
 
     return ( 
         <Background>
-            <BackButton goBack = { () => {
-                props.history.push('/');
-            } }/> 
+            <BackButton goBack = { 
+                () => {
+                    props.history.push('/');
+                }
+            }/> 
             <Logo />
             <Header> Create Account </Header> 
             <Button 
                 mode = "contained"
                 onPress = {
-                    // () => navigation.replace('RegisterEmployerScreen')
                     () => {
-                        props.history.push('/company/signup');
+                        props.history.push('/seeker/signup');
                     }
                 }
                 style = {
                     { marginTop: 0 }
-                } 
-                > Move to Company? </Button>  
+                } > Move to Seeker? </Button>
 
             <TextInput 
                 label = "Email"
@@ -105,9 +104,9 @@ const RegisterScreen = (props, { navigation }) => {
                 autoCapitalize = "none"
                 autoCompleteType = "email"
                 textContentType = "emailAddress"
-                keyboardType = "email-address"
+                keyboardType = "email-address" 
                 />
-            <TextInput 
+            <TextInput
                 label = "Password"
                 returnKeyType = "done"
                 value = { password.value }
@@ -125,15 +124,13 @@ const RegisterScreen = (props, { navigation }) => {
                 onChangeText = {
                     (text) => setConfirmPassword({ value: text, error: '' })
                 }
-                error = {!!confirmPassword.error }
-                errorText = { confirmPassword.error }
+                error = {!!password.error }
+                errorText = { password.error }
                 secureTextEntry 
                 />
-
-            <Header> Seeker </Header> 
-
+            <Header> Company </Header> 
             <TextInput 
-                label = "Full Name"
+                label = "Company's Name"
                 returnKeyType = "next"
                 value = { name.value }
                 onChangeText = {
@@ -141,8 +138,27 @@ const RegisterScreen = (props, { navigation }) => {
                 }
                 error = {!!name.error }
                 errorText = { name.error }
-                />
-
+                /> 
+            {/* <TextInput
+                label = "Company Industry"
+                returnKeyType = "next"
+                value = { name.value }
+                onChangeText = {
+                    (text) => setName({ value: text, error: '' })
+                }
+                error = {!!name.error }
+                errorText = { name.error }
+                /> 
+            <TextInput 
+                label = "Company Location"
+                returnKeyType = "next"
+                value = { name.value }
+                onChangeText = {
+                    (text) => setName({ value: text, error: '' })
+                }
+                error = {!!name.error }
+                errorText = { name.error }
+                />  */}
             <Button 
                 mode = "contained"
                 onPress = { onSignUpPressed }
@@ -160,7 +176,7 @@ const RegisterScreen = (props, { navigation }) => {
                     <Text style = { styles.link } > Login </Text> 
                 </TouchableOpacity> 
             </View> 
-        </Background>
+        </Background >
     )
 }
 
@@ -175,4 +191,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withRouter(RegisterScreen);
+export default withRouter(CompanyRegisterScreen);

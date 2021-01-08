@@ -9,8 +9,8 @@ import AddRecruitment from "./components/add-recruitment.component"
 import {
     StartScreen, 
     LoginScreen, 
-    RegisterScreen, 
-    RegisterEmployerScreen, 
+    SeekerRegisterScreen, 
+    CompanyRegisterScreen, 
     Dashboard,
     SeekerProfileScreen,
     CompanyProfileScreen
@@ -23,8 +23,8 @@ class App extends Component {
                 <Switch>
                     <Route path={["/", "/index"]} exact component={StartScreen} />
                     <Route path="/login" exact component={LoginScreen} />
-                    <Route path="/seeker/signup" exact component={RegisterScreen} />
-                    <Route path="/company/signup" exact component={RegisterEmployerScreen} />
+                    <Route path="/seeker/signup" exact component={SeekerRegisterScreen} />
+                    <Route path="/company/signup" exact component={CompanyRegisterScreen} />
                     <Route path="/dashboard" exact component={Dashboard} />
                     <Route path="/recruitment/search" exact component={SearchJob} />
                     <Route path="/recruitment/apply/:id" exact component={ApplyRecruitment} />
