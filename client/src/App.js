@@ -6,7 +6,8 @@ import {
     StartScreen, 
     LoginScreen,
     ProfileScreen,
-    Dashboard
+    Dashboard,
+    CompanyProfileScreen
 } from './screens/'
 import CreateCV from './screens/CreateCV';
 
@@ -15,7 +16,7 @@ class App extends Component {
         return (
             <div>
                 <Switch>
-                    <Route path="/" exact component={ProfileScreen} />
+                    <Route path="/" exact component={CompanyProfileScreen} />
                     <Route path="/login" exact component={LoginScreen} />
                     <Route path="/createcv" exact component={CreateCV} />
                 </Switch>
