@@ -27,6 +27,9 @@ module.exports = (sequelize, Sequelize) => {
 			allowNull: false,
 			unique: true
 		},
+		CompanyPhoneNumber: {
+			type: Sequelize.STRING,
+		},
 		CompanyDescription: {
 			type: Sequelize.STRING
 		}

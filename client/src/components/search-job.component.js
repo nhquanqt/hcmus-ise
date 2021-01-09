@@ -40,6 +40,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Recruitment from './recruitment.component'
 import DataService from '../services/service'
+import { View } from 'react-native';
 
 class SearchItem extends Component{
     constructor(props){
@@ -100,6 +101,49 @@ export default withRouter(class SearchJob extends Component {
 
     }
 
+    componentDidMount() {
+        this.getAllRecruitment();
+    }
+
+    getAllRecruitment() {
+        DataService.searchRercuitments({})
+        .then(data => {
+            const tmp = JSON.parse(JSON.stringify(data.data));
+            this.setState({
+                recruitments: [],
+                currentRecruitmentCount: 0
+            })
+            for(var i = 0; i < tmp.length; ++i) {
+                const job = tmp[i];
+                const recruitment = job.recruitment;
+                const company = recruitment.company;
+                this.setState({
+                    recruitments: this.state.recruitments.concat([
+                        {
+                            jobName: job.JobName,
+                            location: company.Location,
+                            field: '',
+                            date: recruitment.RecruitmentDate,
+                            expiredDate: recruitment.ExpiredDate,
+                            yearsOfExperience: recruitment.YearsOfExperience,
+                            jobType: job.JobType,
+                            companyName: company.CompanyName,
+                            salary: recruitment.Salary + ' USD',
+                            listDescription: [recruitment.Description],
+                            listRequirement: [recruitment.Requirement],
+                            listSkill: [],
+                            id: recruitment.id
+                        }
+                    ]),
+                    currentRecruitmentCount: this.state.currentRecruitmentCount + 1
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+    }
+
     onAddSearchItemClick(){
         const keyword = this.state.currentKeyword;
         if(keyword === ''){
@@ -147,7 +191,11 @@ export default withRouter(class SearchJob extends Component {
 
     handleSearch(){
 
-        DataService.searchRercuitments({})
+        const query = {
+            JobName: this.state.currentKeyword
+        };
+
+        DataService.searchRercuitments(query)
         .then(data => {
             const tmp = JSON.parse(JSON.stringify(data.data));
             this.setState({
@@ -166,8 +214,8 @@ export default withRouter(class SearchJob extends Component {
                             field: '',
                             date: recruitment.RecruitmentDate,
                             expiredDate: recruitment.ExpiredDate,
-                            yearsOfExperience: '',
-                            jobType: '',
+                            yearsOfExperience: recruitment.YearsOfExperience,
+                            jobType: job.JobType,
                             companyName: company.CompanyName,
                             salary: recruitment.Salary + ' USD',
                             listDescription: [recruitment.Description],
@@ -324,7 +372,7 @@ export default withRouter(class SearchJob extends Component {
 
                             <Input style={{height:'90%'}} type="keyword" name="keyword" id="searchJobKeyword" placeholder="Enter keyword" onChange={onSearchBoxChange}/>
                             
-                            {listCategoryDropDown}
+                            {/* {listCategoryDropDown} */}
 
                             <InputGroupAddon addonType='append' className='small-margin-left'>
                                 <AwesomeButton type="primary">

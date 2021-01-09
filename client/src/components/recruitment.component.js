@@ -116,7 +116,8 @@ export default withRouter(class Recruitment extends Component{
     }
 
     getExpiredDate(){
-        const t = "2020-12-22 13:12:01";
+        // const t = "2020-12-22 13:12:01";
+        const t = new Date(this.state.expiredDate).toDateString();
         return(
             <div>
                 {t}

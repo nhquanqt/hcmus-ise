@@ -12,7 +12,53 @@ import { emailValidator } from '../helpers/emailValidator'
 import { nameValidator } from '../helpers/nameValidator'
 import {Button as Button1} from 'react-native'
 
+import {
+    Row,
+    Col,
+    ListGroupItem,
+    Card,
+    CardImg,
+    CardTitle,
+    CardSubtitle,
+    CardBody,
+    CardText,
+    Container,
+    Modal,
+    ModalBody,
+    ModalProps,
+    ModalFooter,
+    ModalHeader,
+    ModalBodyProps,
+    Progress,
+    InputGroupAddon,
+    FormGroup,
+    InputGroup,
+    Input,
+    Form,
+    Label
+} from 'reactstrap';
+import { 
+    faMapMarkerAlt,
+    faWrench,
+    faDollarSign,
+    faSignInAlt,
+    faRibbon,
+    faClock,
+    faUserCog,
+    faUser,
+    faEnvelope,
+    faPhone,
+    faCheck,
+    faTimes,
+    faFile
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import UploadButton from '../components/UploadButton'
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+
 import {withRouter} from 'react-router-dom';
+import axios from 'axios'; 
 
 import CookieService from '../services/CookieService'
 import DataService from '../services/service'
@@ -43,20 +89,50 @@ const ProfileScreen = (props, { navigation }) => {
 
     const [firstname, setFirstName] = useState({ value: '', error: '' })
     const [lastname, setLastName] = useState({ value: '', error: '' })
-    const [email, setEmail] = useState({ value: '', error: '' })
     const [phonenum, setPhoneNum] = useState({ value: '', error: '' })
-    const [gender, setGender] = useState({ value: '', error: '' })
-    const [dob, setDob] = useState({ value: '', error: '' })
+    const [dob, setDob] = useState({ value: null, error: '' })
     const [address, setAddress] = useState({ value: '', error: '' })
     const [country, setCountry] = useState({ value: '', error: '' })
+    const [selectedFile, setFile] = useState(null);
+    const [filepath, setFilepath] = useState(null);
 
     useEffect( () => {
         if(UserID == undefined)
         {
             alert(`Opp! You haven't login yet`)
             props.history.push('/login');
+            return;
         }
-    })
+        DataService.getSeeker(UserID)
+        .then(data=>{
+            // console.log(data);
+            try {
+                const nameTokens = data.data.FullName.split(' ');
+                var firstName = nameTokens[0];
+                for(var i = 1; i < nameTokens.length-1; ++i)
+                {
+                    firstName += " " + nameTokens[i];
+                }
+                setFirstName({value: firstName});
+                setLastName({value: nameTokens[nameTokens.length-1]});
+                setPhoneNum({value:data.data.PhoneNumber});
+                var dateOfBirth = new Date(data.data.DateOfBirth);
+                setDob({value: dateOfBirth});
+                const locationTokens = data.data.Location.split(', ');
+                var address = locationTokens[0];
+                for(var i = 1; i < locationTokens.length-1; ++i)
+                {
+                    address += ", " + locationTokens[i];
+                }
+                setAddress({value: address});
+                setCountry({value: locationTokens[locationTokens.length - 1]});
+            }
+            catch
+            {
+                
+            }
+        })
+    }, [])
 
 
     const onSavePressed = () => {
@@ -64,35 +140,88 @@ const ProfileScreen = (props, { navigation }) => {
         const firstnameError = nameValidator(firstname.value)
         const lastnameError = nameValidator(lastname.value)
         const phonenumError = nameValidator(phonenum.value)
-        const genderError = nameValidator(gender.value)
-        const emailError = emailValidator(email.value)
-        if (emailError || firstnameError||lastnameError||phonenumError||genderError) {
+        if (firstnameError||lastnameError||phonenumError) {
             alert("Something went wrong please try again!");
             setFirstName({...firstname, error: firstnameError });
             setLastName({...lastname, error: lastnameError });
             setPhoneNum({...phonenum, error: phonenumError });
-            setGender({...gender, error: genderError });
-            setEmail({...email, error: emailError });
             return;
         }
 
-        const data = {
-            UserID: UserID,
-            FullName: firstname.value + ' ' + lastname.value,
-            DateOfBirth: dob.value,
-            PhoneNumber: phonenum.value,
-            Location: address.value + ', ' + country.value
-        };
+        if(selectedFile != null) {
+            handleFileUpload();
 
-        DataService.updateSeekerProfile(data)
-        .then(() => {
-            alert("successfully completed!");
-        })
+        }
+        else {
+            const data = {
+                UserID: UserID,
+                FullName: firstname.value + ' ' + lastname.value,
+                DateOfBirth: dob.value,
+                PhoneNumber: phonenum.value,
+                Location: address.value + ', ' + country.value,
+            };
+    
+            DataService.updateSeekerProfile(data)
+            .then(() => {
+                alert("successfully completed!");
+            })
+        }
+
     }
     const onLogoutPressed=()=>{
         CookieService.remove("UserID", {path: "/"});
         props.history.push('/login');
     }
+
+    const handleFileUpload = () => {
+        if(selectedFile == null)
+        {
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append('resume', selectedFile, selectedFile.name);
+
+        axios.post('http://localhost:8080/api/resume/upload/', formData)
+        .then(data => {
+            const seeker = {
+                UserID: UserID,
+                FullName: firstname.value + ' ' + lastname.value,
+                DateOfBirth: dob.value,
+                PhoneNumber: phonenum.value,
+                Location: address.value + ', ' + country.value,
+                CV: data.data.path
+            };
+    
+            DataService.updateSeekerProfile(seeker)
+            .then(() => {
+                alert("successfully completed!");
+            })
+        })
+    }
+
+    const handleFileChange = event => {
+        setFile(event.target.files[0]);
+    }
+
+    const renderCVUpload = () => {
+        const file = selectedFile ? selectedFile.name : null;
+        return(
+            <InputGroup style={{margin: '15px'}}>
+                <InputGroupAddon addonType='append' style={{padding: '5px', marginRight: '49px'}}>
+                    <FontAwesomeIcon icon={faFile} style={{margin: '5px', marginRight: '10px'}} />
+                    <b>CV file:</b>
+                </InputGroupAddon>
+                <Input style={{height:'90%', maxWidth: '70%', float: 'right', fontSize: '16px'}} type="email" name="email" placeholder="Select CV: *.doc, *.docx, *.pdf" value={file} disabled='disabled'/>
+                <InputGroupAddon addonType="prepend" style={{marginLeft: '10px'}}>
+                    <UploadButton style={{height: '87%'}} onChange={handleFileChange}/>
+                </InputGroupAddon>
+            </InputGroup>
+        );
+    }
+
+    const CVUpload = renderCVUpload();
 
     return ( 
         <Background>
@@ -100,7 +229,7 @@ const ProfileScreen = (props, { navigation }) => {
                 style={{
                 flexDirection: "row",
                 height: 75,
-                width:500,
+                width:850,
                 padding: 20,
                 borderBottomColor: '#000000',
                 borderBottomWidth: 1,
@@ -125,95 +254,99 @@ const ProfileScreen = (props, { navigation }) => {
             
             <Header> User's Profile </Header> 
             <View style = { styles.row } >
-            <View style = { styles.col } >
-            <b>First Name (*)</b>
-            <TextInput 
-                returnKeyType = "next"
-                value = { firstname.value }
-                onChangeText = {
-                    (text) => setFirstName({ value: text, error: '' })
-                }
-                error = {!!firstname.error }
-                errorText = { firstname.error }
-                />
-            <b>Email (*)</b>
-            <TextInput 
-                returnKeyType = "next"
-                value = { email.value }
-                onChangeText = {
-                    (text) => setEmail({ value: text, error: '' })
-                }
-                error = {!!email.error }
-                errorText = { email.error }
-                autoCapitalize = "none"
-                autoCompleteType = "email"
-                textContentType = "emailAddress"
-                keyboardType = "email-address"
-                />
-            <b>Gender (*)</b>
-            <TextInput 
-                returnKeyType = "done"
-                value = { gender.value }
-                onChangeText = {
-                    (text) => setGender({ value: text, error: '' })
-                }
-                error = {!!gender.error }
-                errorText = { gender.error }
-                />
-            <b>Address</b>
-            <TextInput 
-                returnKeyType = "done"
-                value = { address.value}
-                onChangeText = {
-                    (text) => setAddress({ value: text, error: '' })
-                }
-                error = {!!address.error }
-                errorText = { address.error }
-                />
-                </View>
                 <View style = { styles.col } >
-                <b>Last Name (*)</b>
-            <TextInput
-                returnKeyType = "next"
-                value = { lastname.value }
-                onChangeText = {
-                    (text) => setLastName({ value: text, error: '' })
-                }
-                error = {!!lastname.error }
-                errorText = { lastname.error }
-                />
-                <b>Phone Number (*)</b>
-            <TextInput
-                returnKeyType = "next"
-                value = { phonenum.value }
-                onChangeText = {
-                    (text) => setPhoneNum({ value: text, error: '' })
-                }
-                error = {!!phonenum.error }
-                errorText = { phonenum.error }
-                autoCapitalize = "none"
-                />
-                <b>Date of birth</b>
-            <TextInput
-                returnKeyType = "done"
-                value = { dob.value }
-                onChangeText = {
-                    (text) => setDob({ value: text, error: '' })
-                }
-                error = {!!dob.error }
-                errorText = { dob.error }
-                />
-                <b>Country</b>
-            <TextInput
-                returnKeyType = "done"
-                value = { country.value}
-                onChangeText = {
-                    (text) => setCountry({ value: text, error: '' })
-                }
-                error = {!!country.error }
-                errorText = { country.error }
-                />
+                    <b>First Name (*)</b>
+                    <TextInput 
+                        returnKeyType = "next"
+                        value = { firstname.value }
+                        onChangeText = {
+                            (text) => setFirstName({ value: text, error: '' })
+                        }
+                        error = {!!firstname.error }
+                        errorText = { firstname.error }
+                        />
+                    <b>Last Name (*)</b>
+                    <TextInput
+                        returnKeyType = "next"
+                        value = { lastname.value }
+                        onChangeText = {
+                            (text) => setLastName({ value: text, error: '' })
+                        }
+                        error = {!!lastname.error }
+                        errorText = { lastname.error }
+                        />
+                    <b>Date of birth</b>
+                    {/* <TextInput
+                        returnKeyType = "done"
+                        value = { dob.value }
+                        onChangeText = {
+                            (text) => setDob({ value: text, error: '' })
+                        }
+                        error = {!!dob.error }
+                        errorText = { dob.error }
+                        /> */}
+                    <DatePicker 
+                        selected={dob.value} 
+                        onChange={selectedDate => setDob({value: selectedDate})}
+                        dateFormat="dd-MM-yyyy"
+                        popperPlacement="top"
+                        customInput={
+                            <TextInput
+                            returnKeyType = "done"
+                            value = { dob.value }
+                            onChangeText = {
+                                (text) => setDob({ value: text, error: '' })
+                            }
+                            error = {!!dob.error }
+                            errorText = { dob.error }
+                            />
+                        }
+                        />
                 </View>
+
+                <View style = { styles.col } >
+                    <b>Phone Number (*)</b>
+                    <TextInput
+                        returnKeyType = "next"
+                        value = { phonenum.value }
+                        onChangeText = {
+                            (text) => setPhoneNum({ value: text, error: '' })
+                        }
+                        error = {!!phonenum.error }
+                        errorText = { phonenum.error }
+                        autoCapitalize = "none"
+                        />
+                    <b>Address</b>
+                    <TextInput 
+                        returnKeyType = "done"
+                        value = { address.value}
+                        onChangeText = {
+                            (text) => setAddress({ value: text, error: '' })
+                        }
+                        error = {!!address.error }
+                        errorText = { address.error }
+                        />
+                    <b>Country</b>
+                    <TextInput
+                        returnKeyType = "done"
+                        value = { country.value}
+                        onChangeText = {
+                            (text) => setCountry({ value: text, error: '' })
+                        }
+                        error = {!!country.error }
+                        errorText = { country.error }
+                        />
+                </View>
+            </View>
+            <View>
+                <b>Upload your CV</b>
+            </View>
+            <View
+                style={{
+                    flexDirection: "row",
+                    width: 600,
+                    }}>
+                {CVUpload}
             </View>
             <Button 
                 mode = "contained"

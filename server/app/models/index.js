@@ -36,6 +36,7 @@ db.user_type = require("./userType.model.js")(sequelize, Sequelize);
 db.user_log = require("./userLog.model.js")(sequelize, Sequelize);
 db.write_review_company = require("./writeReviewCompany.model.js")(sequelize, Sequelize);
 db.write_review_seeker = require("./writeReviewSeeker.model.js")(sequelize, Sequelize);
+db.required_skill = require("./required_skill.model")(sequelize, Sequelize);
 
 
 // db.user.belongsTo(db.user_type, {foreignKey: "UserTypeID"});
@@ -56,5 +57,7 @@ db.skill_detail.belongsTo(db.skill_set, {foreignKey: "SkillSetID"});
 
 db.apply.belongsTo(db.recruitment, {foreignKey: "RecruimentID"});
 db.apply.belongsTo(db.seeker, {foreignKey: "SeekerID"});
+
+db.required_skill.belongsTo(db.recruitment, {foreignKey: "RecruitmentID"});
 
 module.exports = db;

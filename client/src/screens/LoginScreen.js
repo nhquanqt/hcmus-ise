@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native-web'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
@@ -40,6 +40,14 @@ const LoginScreen = (props, { navigation }) => {
         }
     ];
 
+    useEffect( () => {
+        const UserID = CookieService.get("UserID");
+        console.log(UserID);
+        if(UserID != null) {
+            props.history.push('/dashboard');
+        }
+    }, [])
+
     const onChange = (newValue) => {
         console.log(newValue);
     };
@@ -80,11 +88,10 @@ const LoginScreen = (props, { navigation }) => {
                 CookieService.set("UserID", data.data[0].id, {path: "/"});
                 props.history.push('/dashboard');
                 // props.history.push('/recruitment/search');
-                
-                
             }
             else {
                 // the account is incorrect
+                alert('Opp! The email or password is incorrect');
             }
         })
         .catch(err => {

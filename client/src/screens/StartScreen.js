@@ -6,9 +6,20 @@ import Button from '../components/Button'
 import Paragraph from '../components/Paragraph'
 
 import {withRouter} from 'react-router-dom';
+import { useEffect } from 'react'
+
+import CookieService from '../services/CookieService'
 
 const StartScreen = (props, {navigation}) => {
     console.log(props);
+
+    useEffect( () => {
+        const UserID = CookieService.get("UserID");
+        if (UserID != null) {
+            props.history.push('/dashboard');
+        }
+    })
+
     return (
         <Background>
             <Logo />

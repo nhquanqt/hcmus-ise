@@ -1,10 +1,11 @@
-const { company } = require("../models");
+const { company, recruitment } = require("../models");
 const db = require("../models");
 const Job = db.job;
 const Recruitment = db.recruitment;
 const Major = db.major;
 const Op = db.Sequelize.Op;
 const Company = db.company;
+const RequiredSkill = db.required_skill;
 
 exports.search = (req, res) => {
 
@@ -147,7 +148,7 @@ exports.findByRecruitmentID = (req, res) => {
 
     Job.findOne({
         where: {
-            RecruitmentId: recruitmentId
+            RecruitmentID: recruitmentId
         },
         include: [
             {
@@ -161,7 +162,20 @@ exports.findByRecruitmentID = (req, res) => {
         ]
     })
         .then(data => {
-            res.send(data);
+            var required_skills = [];
+            RequiredSkill.findAll({
+                where: {
+                    RecruitmentID: recruitmentId
+                }
+            })
+            .then(required_skill_data => {
+                // console.log(required_skill_data)
+                // console.log(data.dataValues);
+                res.send({
+                    job: data,
+                    required_skill: required_skill_data
+                });
+            })
         })
         .catch(err => {
             res.status(500).send({

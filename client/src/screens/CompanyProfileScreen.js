@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Text, TextInput as TextField } from 'react-native-paper'
 import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
@@ -28,46 +28,61 @@ const CompanyProfileScreen = (props, { navigation }) => {
 
     const [companyname, setCompName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
-    const [compIndustry, setIndust] = useState({ value: '', error: '' })
+    // const [compIndustry, setIndust] = useState({ value: '', error: '' })
     const [compLocation, setLoca] = useState({ value: '', error: '' })
     const [compPhone, setPhone] = useState({ value: '', error: '' })
+    const [compDesc, setDecs] = useState({ value: '', error: '' })
 
     useEffect( () => {
-        if(UserID == undefined)
+        console.log(UserID);
+        if(UserID == null)
         {
             alert(`Opp! You haven't login yet`)
             props.history.push('/login');
+            return;
         }
-    })
+
+        DataService.getCompany(UserID)
+        .then(data => {
+            setCompName({value: data.data.CompanyName});
+            setEmail({value: data.data.CompanyEmail});
+            setLoca({value: data.data.Location});
+            setPhone({value: data.data.CompanyPhoneNumber});
+            setDecs({value: data.data.CompanyDescription});
+        })
+    }, [])
 
     const onSavePressed = () => {
         const compnameError = nameValidator(companyname.value)
-        const compIndustryError = nameValidator(compIndustry.value)
+        // const compIndustryError = nameValidator(compIndustry.value)
         const compPhoneError = nameValidator(compPhone.value)
         const compLocationError = nameValidator(compLocation.value)
         const emailError = emailValidator(email.value)
-        if (emailError || compnameError||compIndustryError||compPhoneError||compLocationError) {
+        // if (emailError || compnameError||compIndustryError||compPhoneError||compLocationError) {
+        if (emailError || compnameError||compPhoneError||compLocationError) {
             alert("Something went wrong please try again!");
             setCompName({...companyname, error: compnameError });
-            setIndust({...compIndustry, error: compIndustryError });
+            // setIndust({...compIndustry, error: compIndustryError });
             setPhone({...compPhone, error: compPhoneError });
             setLoca({...compLocation, error: compLocationError});
             setEmail({...email, error: emailError });
             return;
         }
 
-        const data = {
+        const company = {
             UserID: UserID,
             FieldID: null,
             CompanyName: companyname.value,
             Location: compLocation.value,
             CompanyEmail: email.value,
-            CompanyDescription: null,
+            CompanyPhoneNumber: compPhone.value,
+            CompanyDescription: compDesc.value,
         };
+        console.log(compDesc.value);
 
-        DataService.updateCompanyProfile(data)
+        DataService.updateCompanyProfile(company)
         .then(() => {
-            alert("successfully completed!");
+            alert("Profile successfully completed!");
         })
     }
     
@@ -82,7 +97,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 style={{
                 flexDirection: "row",
                 height: 75,
-                width:500,
+                width:850,
                 padding: 20,
                 borderBottomColor: '#000000',
                 borderBottomWidth: 1,
@@ -132,6 +147,8 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 textContentType = "emailAddress"
                 keyboardType = "email-address"
                 />
+                </View>
+                <View style = { styles.col } >
                 <b>Company's Phone</b>
                 <TextInput 
                 returnKeyType = "done"
@@ -142,9 +159,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 error = {!!compPhone.error }
                 errorText = { compPhone.error }
                 />
-                </View>
-                <View style = { styles.col } >
-                <b>Company's Industry(*)</b>
+                {/* <b>Company's Industry(*)</b>
             <TextInput 
                 returnKeyType = "done"
                 value = { compIndustry.value }
@@ -153,7 +168,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 }
                 error = {!!compIndustry.error }
                 errorText = { compIndustry.error }
-                />
+                /> */}
             <b>Company's Location</b>
             <TextInput 
                 returnKeyType = "done"
@@ -165,10 +180,23 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 errorText = { compLocation.error }
                 />
                 </View>
-            
                 
-                
-                
+            </View>
+            <View>
+                <b>Company's Description</b>
+                <textarea
+                    value = { compDesc.value}
+                    onChange = {
+                        (event) => setDecs({ value: event.target.value, error: '' })
+                    }
+                    style={
+                        {
+                            padding: 12,
+                            height: 128,
+                            width: 600
+                        }
+                    }
+                    />
             </View>
             <Button 
                 mode = "contained"

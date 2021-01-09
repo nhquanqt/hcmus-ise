@@ -102,6 +102,7 @@ export default class AddRecruitment extends Component{
             // companyName: '',
             // companyEmail: '',
             // phone: '',
+            companyID: '',
             jobName: '',
             jobType: '',
             major: '',
@@ -120,42 +121,79 @@ export default class AddRecruitment extends Component{
         }
     }
 
+    componentDidMount() {
+        const UserID = CookieService.get("UserID");
+
+        if(UserID == null) {
+            alert("Opp! You haven't login yet.");
+            this.props.history.push('/login');
+        }
+
+        DataService.getCompany(UserID)
+        .then(data => {
+            if(data == null) {
+                alert("Please be a company to add recruitment");
+                this.props.history.goBack();
+            }
+            else {
+                this.setState({
+                    companyID: data.data.id
+                });
+            }
+            console.log(this.state.companyID);
+        })
+        .catch(err => {
+            console.log('Error ' + err.message);
+        });
+    }
+
     handleSubmitForm(){
 
         const UserID = CookieService.get("UserID");
 
         console.log(UserID);
         
-        DataService.getCompany(UserID)
-        .then(data => {
-            this.setState({companyID: data.data.id});
             
-            const recruitmentDate = new Date();
+        const recruitmentDate = new Date();
+        
+        var requiredSkill = [];
+        
+        for(var i = 0; i < this.state.listSkill.length; ++i) {
+            requiredSkill.push({
+                SkillName: this.state.listSkill[i].name, 
+                Level: this.state.listSkill[i].level
+            })
+        }
 
-            const recruitment = {
-                CompanyID: this.state.companyID,
-                RecruitmentDate: recruitmentDate,
-                ExpiredDate: this.state.date,
-                Description: this.state.description,
-                Salary: parseInt(this.state.salary),
-                JobName: this.state.jobName,
-                JobType: this.state.jobType,
-                JobDescription: this.state.description,
-                Requirement: this.state.requirement
-            }
-
-            DataService.postRecruitment(recruitment)
-            .then( () => {
+        console.log(requiredSkill[0]);
+        
+        const recruitment = {
+            CompanyID: this.state.companyID,
+            RecruitmentDate: recruitmentDate,
+            ExpiredDate: this.state.date,
+            Description: this.state.description,
+            Salary: parseInt(this.state.salary),
+            JobName: this.state.jobName,
+            JobType: this.state.jobType,
+            JobDescription: this.state.description,
+            Requirement: this.state.requirement,
+            RequiredSkill: requiredSkill,
+            YearsOfExperience: this.state.yearsOfExperience
+        }
+        
+        DataService.postRecruitment(recruitment)
+        .then( data => {
+            console.log(data);
+            if(data.data.message) {
                 alert("Recruitment posted!");
-            });
-    
+            }
+            else {
+                alert("There are some error");
+            }
         })
         .catch(err => {
-            console.log('error');
-            console.log(err.message);
-            alert(err.message);
-        })
-
+            alert('ech');
+        });
     }
 
     handleAddSkillClick(){

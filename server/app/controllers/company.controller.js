@@ -2,6 +2,7 @@ const db = require("../models");
 const Company = db.company;
 const Job = db.job;
 const Recruitment = db.recruitment;
+const RequiredSkill = db.required_skill;
 
 exports.findOne = (req, res) => {
 
@@ -48,6 +49,7 @@ exports.uploadProfile = (req, res) => {
         CompanyName: req.body.CompanyName,
         Location: req.body.Location,
         CompanyEmail: req.body.CompanyEmail,
+        CompanyPhoneNumber: req.body.CompanyPhoneNumber,
         CompanyDescription: req.body.CompanyDescription,
     };
 
@@ -95,7 +97,8 @@ exports.postJob = (req, res) => {
         ExpiredDate: req.body.ExpiredDate,
         Description: req.body.Description,
         Salary: req.body.Salary,
-        Requirement: req.body.Requirement
+        Requirement: req.body.Requirement,
+        YearsOfExperience: req.body.YearsOfExperience
     };
 
     const code = 34357246;
@@ -113,12 +116,32 @@ exports.postJob = (req, res) => {
         Job.create(job)
         .then(() => {
             console.log("Post job success");
-            res.send({message: true}); 
+            console.log(req.body.RequiredSkill);
+
+            for(var i = 0; i < req.body.RequiredSkill.length; ++i) {
+                const required_skill = {
+                    RecruitmentID: data.id,
+                    SkillName: req.body.RequiredSkill[i].SkillName, 
+                    SkillSetID: req.body.RequiredSkill[i].SkillSetID, 
+                    Level: req.body.RequiredSkill[i].Level
+                };
+    
+                RequiredSkill.create(required_skill)
+                .then( () => {
+                    console.log('Required skill added');
+                })
+                .catch(err => {
+                    confirm.log('Error ' + err.message);
+                    res.send({message: false});
+                })
+            }
+            res.send({message: true});
         })
         .catch(() => {
             console.log('Error', code, err.message);
             res.send({message: false});
         });
+        
     })
     .catch(err => {
         console.log('Error', code, err.message);

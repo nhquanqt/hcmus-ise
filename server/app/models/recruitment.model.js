@@ -27,6 +27,12 @@ module.exports = (sequelize, Sequelize) => {
 		},
 		Requirement: {
 			type: Sequelize.STRING
+		},
+		YearsOfExperience: {
+			type: Sequelize.INTEGER,
+			validate: {
+				min: 0
+			}
 		}
 	});
 

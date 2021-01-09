@@ -96,10 +96,17 @@ export default withRouter(class ApplyRecruitment extends Component {
     getRecruitment(id) {
         DataService.getRecruitment(id)
         .then(data => {
-            console.log(data.data);
-            const job = data.data;
+            const job = data.data.job;
+            const required_skill = [];
             const recruitment = job.recruitment;
             const company = recruitment.company;
+            for(var i = 0; i < data.data.required_skill.length; ++i) {
+                required_skill.push({
+                    name: data.data.required_skill[i].SkillName,
+                    level: data.data.required_skill[i].Level,
+                })
+            }
+
             this.setState({
                 recruitment: {
                     jobName: job.JobName,
@@ -109,11 +116,11 @@ export default withRouter(class ApplyRecruitment extends Component {
                     expiredDate: recruitment.ExpiredDate,
                     field: '',
                     salary: recruitment.Salary + ' USD',
-                    yearsOfExperience: '',
-                    jobType: '',
-                    listJobDescription: [recruitment.Description],
-                    listJobRequirement: [recruitment.Requirement],
-                    listSkill: []
+                    yearsOfExperience: recruitment.YearsOfExperience,
+                    jobType: job.JobType,
+                    listJobDescription: recruitment.Description.split('\n'),
+                    listJobRequirement: recruitment.Requirement.split('\n'),
+                    listSkill: required_skill
                 }
             })
         })
