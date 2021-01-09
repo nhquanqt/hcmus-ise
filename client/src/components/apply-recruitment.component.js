@@ -47,28 +47,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios'; 
 
-import {Button as MaterialButton} from '@material-ui/core/';
+import UploadButton from './UploadButton'
 
 import DataService from '../services/service'
-
-function UploadButton(props) {
-    return (
-        <div>
-            <input
-                id="contained-button-file"
-                type="file"
-                style={{display: "none"}}
-                onChange={props.onChange}
-            />
-            <label htmlFor="contained-button-file">
-                <MaterialButton variant="contained" color="primary" component="span" style={props.style}>
-                    Browse
-                </MaterialButton>
-            </label>
-        </div>
-    );
-}
-
 
 export default withRouter(class ApplyRecruitment extends Component {
     constructor(props) {

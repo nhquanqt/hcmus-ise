@@ -23,9 +23,11 @@ module.exports = app => {
 
     router.get('/user/id/:id', user.findOne);
 
+    router.get('/seeker/id/:id', seeker.findOne);
     router.post('/seeker/uploadProfile', seeker.uploadProfile);
     router.post('/seeker/applyJob', seeker.applyJob);
 
+    router.get('/company/id/:id', company.findOne);
     router.post('/company/uploadProfile', company.uploadProfile);
     router.post('/company/postJob', company.postJob);
     router.get('/company/getApplies', company.getApplied);

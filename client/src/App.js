@@ -15,12 +15,14 @@ import {
     SeekerProfileScreen,
     CompanyProfileScreen
 } from "./screens"
+import ProfileScreen from "./screens/ProfileScreen"
 
 class App extends Component {
     render () {
         return (
             <div>
                 <Switch>
+                    <Route path="/check" exact component={Recruitment} />
                     <Route path={["/", "/index"]} exact component={StartScreen} />
                     <Route path="/login" exact component={LoginScreen} />
                     <Route path="/seeker/signup" exact component={SeekerRegisterScreen} />

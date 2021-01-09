@@ -1,5 +1,24 @@
 const db = require("../models");
 const Seeker = db.seeker;
+const Apply = db.apply;
+
+exports.findOne = (req, res) => {
+
+    const id = req.params.id;
+
+    Seeker.findOne({
+        where: {
+            UserID: id
+        }
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log("Error " + err.message);
+        res.status(500).send(err);
+    })
+}
 
 exports.applyJob = (req, res) => {
     const apply = {

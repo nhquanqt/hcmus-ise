@@ -3,6 +3,24 @@ const Company = db.company;
 const Job = db.job;
 const Recruitment = db.recruitment;
 
+exports.findOne = (req, res) => {
+
+    const id = req.params.id;
+
+    Company.findOne({
+        where: {
+            UserID: id
+        }
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log("Error " + err.message);
+        res.status(500).send(err);
+    })
+}
+
 exports.getApplied = (req, res) => {
     var query = JSON.parse(JSON.stringify(req.query));
 

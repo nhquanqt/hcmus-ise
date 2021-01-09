@@ -9,6 +9,10 @@ class DataService {
         return http.get(`/jobs/search`, {params: req});
     }
 
+    postRecruitment(req) {
+        return http.post(`/company/postJob`, req);
+    }
+
     login(req) {
         return http.get(`/user/login`, {params: req});
     }
@@ -27,6 +31,14 @@ class DataService {
 
     updateCompanyProfile(req) {
         return http.post(`/company/uploadProfile`, req);
+    }
+
+    getSeeker(UserID) {
+        return http.get(`/seeker/id/${UserID}`);
+    }
+
+    getCompany(UserID) {
+        return http.get(`/company/id/${UserID}`);
     }
 }
 
