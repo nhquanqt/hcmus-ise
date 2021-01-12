@@ -37,7 +37,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
         console.log(UserID);
         if(UserID == null)
         {
-            alert(`Opp! You haven't login yet`)
+            alert(`Oops! You haven't login yet`)
             props.history.push('/login');
             return;
         }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background'
@@ -44,6 +44,14 @@ const CompanyRegisterScreen = (props, { navigation }) => {
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
     const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' })
+
+    useEffect( () => {
+        const UserID = CookieService.get("UserID");
+        console.log(UserID);
+        if(UserID != null) {
+            props.history.push('/home');
+        }
+    }, [])
 
     const onSignUpPressed = () => {
         const nameError = nameValidator(name.value)

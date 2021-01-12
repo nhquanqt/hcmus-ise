@@ -44,7 +44,7 @@ const LoginScreen = (props, { navigation }) => {
         const UserID = CookieService.get("UserID");
         console.log(UserID);
         if(UserID != null) {
-            props.history.push('/dashboard');
+            props.history.push('/home');
         }
     }, [])
 
@@ -91,7 +91,7 @@ const LoginScreen = (props, { navigation }) => {
             }
             else {
                 // the account is incorrect
-                alert('Opp! The email or password is incorrect');
+                alert('Oops! The email or password is incorrect');
             }
         })
         .catch(err => {

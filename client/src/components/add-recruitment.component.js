@@ -125,7 +125,7 @@ export default class AddRecruitment extends Component{
         const UserID = CookieService.get("UserID");
 
         if(UserID == null) {
-            alert("Opp! You haven't login yet.");
+            alert("Oops! You haven't login yet.");
             this.props.history.push('/login');
         }
 
@@ -152,8 +152,30 @@ export default class AddRecruitment extends Component{
         const UserID = CookieService.get("UserID");
 
         console.log(UserID);
+
+        if (this.state.jobName == "") {
+            alert("Oops! Job name should not be empty!");
+            return;
+        }
+
+        if (this.state.jobType == "") {
+            alert("Oops! Job type should not be empty!");
+            return;
+        }
+
+        if (this.state.major == "") {
+            alert("Oops! Major should not be empty!");
+            return;
+        }
+
+        const today = new Date();
+        const expiredDate = new Date(this.state.date);
         
-            
+        if (expiredDate < today) {
+            alert("Oops! Your expired date has passed!");
+            return;
+        }
+        
         const recruitmentDate = new Date();
         
         var requiredSkill = [];
@@ -163,6 +185,14 @@ export default class AddRecruitment extends Component{
                 SkillName: this.state.listSkill[i].name, 
                 Level: this.state.listSkill[i].level
             })
+        }
+
+        for (var i = 0; i < requiredSkill.length; ++i) {
+            for (var j = i + 1; j < requiredSkill.length; ++j) {
+                if (requiredSkill[i].SkillName == requiredSkill[j].SkillName) {
+                    alert("Oops! Some skills have been repeated!")
+                }
+            }
         }
 
         console.log(requiredSkill[0]);
@@ -193,7 +223,7 @@ export default class AddRecruitment extends Component{
             }
         })
         .catch(err => {
-            alert('ech');
+            alert(err.message);
         });
     }
 
