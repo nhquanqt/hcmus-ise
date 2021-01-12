@@ -49,6 +49,7 @@ import axios from 'axios';
 
 import UploadButton from './UploadButton'
 
+import CookieService from '../services/CookieService'
 import DataService from '../services/service'
 
 export default withRouter(class ApplyRecruitment extends Component {
@@ -91,6 +92,20 @@ export default withRouter(class ApplyRecruitment extends Component {
 
     componentDidMount() {
         this.getRecruitment(this.props.match.params.id);
+        const UserID = CookieService.get("UserID");
+        DataService.getSeeker(UserID)
+        .then(data => {
+            this.setState({
+                fullname: data.data.FullName,
+                phone: data.data.PhoneNumber
+            })
+        });
+        DataService.getUser(UserID)
+        .then(data => {
+            this.setState({
+                email: data.data.AccountEmail
+            })
+        })
     }
 
     getRecruitment(id) {
@@ -114,7 +129,7 @@ export default withRouter(class ApplyRecruitment extends Component {
                     location: company.Location,
                     date: recruitment.RecruitmentDate,
                     expiredDate: recruitment.ExpiredDate,
-                    field: '',
+                    field: job.MajorName,
                     salary: recruitment.Salary + ' USD',
                     yearsOfExperience: recruitment.YearsOfExperience,
                     jobType: job.JobType,
@@ -142,6 +157,34 @@ export default withRouter(class ApplyRecruitment extends Component {
     handleOnClickSendApply(){
         
         var isSended = true;
+
+        if (this.state.fullname == "") {
+            alert("Oops! Please enter your full name");
+            return;
+        }
+
+        if (this.state.email == "") {
+            alert("Oops! Please enter your email");
+            return;
+        }
+
+        if (this.state.phone == "") {
+            alert("Oops! Please enter your phone number");
+            return;
+        }
+
+        const email = this.state.email;
+        const phone = this.state.phone;
+
+        if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+            alert("Oops! The email is not valid");
+            return;
+        }
+
+        if (! /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(phone)) {
+            alert("Oops! The phone number is not valid");
+            return;
+        }
 
         if(this.state.isApplyWithCV)
         {
