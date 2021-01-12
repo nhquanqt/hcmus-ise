@@ -300,9 +300,9 @@ const ProfileScreen = (props, { navigation }) => {
                             <TextInput
                             returnKeyType = "done"
                             value = { dob.value }
-                            onChangeText = {
-                                (text) => setDob({ value: text, error: '' })
-                            }
+                            // onChangeText = {
+                            //     (text) => setDob({ value: text, error: '' })
+                            // }
                             error = {!!dob.error }
                             errorText = { dob.error }
                             />
