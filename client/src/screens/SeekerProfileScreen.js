@@ -295,6 +295,7 @@ const ProfileScreen = (props, { navigation }) => {
                         onChange={selectedDate => setDob({value: selectedDate})}
                         dateFormat="dd-MM-yyyy"
                         popperPlacement="top"
+                        showYearDropdown
                         customInput={
                             <TextInput
                             returnKeyType = "done"

@@ -83,6 +83,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
         DataService.updateCompanyProfile(company)
         .then(() => {
             alert("Profile successfully completed!");
+            window.location.reload();
         })
     }
     

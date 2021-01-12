@@ -466,7 +466,12 @@ export default class AddRecruitment extends Component{
                                     <b>ExpiredDate*:</b>
                                 </InputGroup>
                                 <InputGroup style={{marginBottom: '15px'}}>
-                                    <DatePicker selected={this.state.date} onChange={selectedDate => this.setState({date: selectedDate})}/>
+                                    <DatePicker 
+                                        dateFormat="dd-MM-yyyy" 
+                                        selected={this.state.date} 
+                                        onChange={selectedDate => this.setState({date: selectedDate})}
+                                        minDate={new Date()}
+                                        />
                                 </InputGroup>
                             </FormGroup>
                     <Button color='primary' style={{width: '100%'}} type='submit'>
