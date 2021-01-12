@@ -52,7 +52,7 @@ function Navbar(props) {
 	// window.addEventListener('resize', showButton);
 	
 	const onClickLogout = () => {
-    CookieService.remove("UserID");
+    CookieService.remove("UserID", {path: "/"});
     if (props.location.pathname == '/home') {
       window.location.reload();
     }

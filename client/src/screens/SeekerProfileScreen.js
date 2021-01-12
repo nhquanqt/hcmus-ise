@@ -95,6 +95,7 @@ const ProfileScreen = (props, { navigation }) => {
     const [country, setCountry] = useState({ value: '', error: '' })
     const [selectedFile, setFile] = useState(null);
     const [filepath, setFilepath] = useState(null);
+    const [resume, setResume] = useState(null);
 
     useEffect( () => {
         if(UserID == undefined)
@@ -126,6 +127,7 @@ const ProfileScreen = (props, { navigation }) => {
                 }
                 setAddress({value: address});
                 setCountry({value: locationTokens[locationTokens.length - 1]});
+                setResume(data.data.CV);
             }
             catch
             {
@@ -164,8 +166,10 @@ const ProfileScreen = (props, { navigation }) => {
             DataService.updateSeekerProfile(data)
             .then(() => {
                 alert("successfully completed!");
+                window.location.reload();
             })
         }
+
 
     }
     const onLogoutPressed=()=>{
@@ -197,6 +201,7 @@ const ProfileScreen = (props, { navigation }) => {
             DataService.updateSeekerProfile(seeker)
             .then(() => {
                 alert("successfully completed!");
+                window.location.reload();
             })
         })
     }
@@ -338,6 +343,14 @@ const ProfileScreen = (props, { navigation }) => {
                         />
                 </View>
             </View>
+            {(resume != null) &&
+            <Button 
+                mode="outlined"
+                onPress={() => {
+                    window.open('http://localhost:8080/' + resume);
+                }}
+                >My CV</Button>
+            }
             <View>
                 <b>Upload your CV</b>
             </View>
