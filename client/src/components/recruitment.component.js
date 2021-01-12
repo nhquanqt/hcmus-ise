@@ -47,6 +47,7 @@ export default withRouter(class Recruitment extends Component{
         this.state = {
             id: props.id,
             jobName: props.jobName,
+            field: props.field,
             companyName: props.companyName,
             description: props.description,
             location: props.jobLocation,

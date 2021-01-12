@@ -86,7 +86,7 @@ const LoginScreen = (props, { navigation }) => {
             // console.log(data);
             if(data.data.length == 1) {
                 CookieService.set("UserID", data.data[0].id, {path: "/"});
-                props.history.push('/dashboard');
+                props.history.push('/home');
                 // props.history.push('/recruitment/search');
             }
             else {
@@ -100,21 +100,21 @@ const LoginScreen = (props, { navigation }) => {
     }
 
     return ( 
-        <Background>
-            <BackButton goBack = {
+        <Background >
+            {/* <BackButton goBack = {
                     () => {
                         props.history.push('/');
                     }
                 }
-            /> 
+            />  */}
             <Logo />
             <Header> Welcome back </Header> 
 
-            <div className = "your-required-wrapper"
+            {/* <div className = "your-required-wrapper"
                 style = {
                     { width: 200, height: 50 }
                 } >
-            </div>
+            </div> */}
             <TextInput 
                 label = "Email"
                 returnKeyType = "next"

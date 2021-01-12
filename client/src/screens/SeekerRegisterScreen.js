@@ -69,7 +69,7 @@ const SeekerRegisterScreen = (props, { navigation }) => {
         .then(data => {
             console.log(data.data.id);
             CookieService.set("UserID", data.data.id, {path: "/"});
-            props.history.push('/dashboard');
+            props.history.push('/home');
         });
     }
 

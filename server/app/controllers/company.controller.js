@@ -107,7 +107,7 @@ exports.postJob = (req, res) => {
     .then(data => {
         const job = {
             RecruitmentID: data.id,
-            MajorID: req.body.MajorID,
+            MajorName: req.body.MajorName,
             JobName: req.body.JobName,
             JobType: req.body.JobType,
             JobDescription: req.body.JobDescription,

@@ -122,7 +122,7 @@ export default withRouter(class SearchJob extends Component {
                         {
                             jobName: job.JobName,
                             location: company.Location,
-                            field: '',
+                            field: job.MajorName,
                             date: recruitment.RecruitmentDate,
                             expiredDate: recruitment.ExpiredDate,
                             yearsOfExperience: recruitment.YearsOfExperience,
@@ -211,7 +211,7 @@ export default withRouter(class SearchJob extends Component {
                         {
                             jobName: job.JobName,
                             location: company.Location,
-                            field: '',
+                            field: job.MajorName,
                             date: recruitment.RecruitmentDate,
                             expiredDate: recruitment.ExpiredDate,
                             yearsOfExperience: recruitment.YearsOfExperience,

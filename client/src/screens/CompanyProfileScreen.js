@@ -93,7 +93,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
 
     return ( 
         <Background>
-            <View
+            {/* <View
                 style={{
                 flexDirection: "row",
                 height: 75,
@@ -118,7 +118,7 @@ const CompanyProfileScreen = (props, { navigation }) => {
                 title="Logout"
                 color="#ff0000"
                 onPress={onLogoutPressed} />
-            </View>
+            </View> */}
             
             <Header> Company's Profile </Header> 
             <View style = { styles.row } >

@@ -68,7 +68,7 @@ const CompanyRegisterScreen = (props, { navigation }) => {
         DataService.signup(account)
         .then(data => {
             CookieService.set("UserID", data.data.id, {path: "/"});
-            props.history.push('/dashboard');
+            props.history.push('/home');
         });
     }
 

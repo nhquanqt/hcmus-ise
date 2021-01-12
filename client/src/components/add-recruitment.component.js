@@ -175,6 +175,7 @@ export default class AddRecruitment extends Component{
             Salary: parseInt(this.state.salary),
             JobName: this.state.jobName,
             JobType: this.state.jobType,
+            MajorName: this.state.major,
             JobDescription: this.state.description,
             Requirement: this.state.requirement,
             RequiredSkill: requiredSkill,
