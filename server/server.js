@@ -25,6 +25,7 @@ app.get('/', (req, res) => {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 require('./app/routes/account.routes')(app);
 =======
 require('./app/routes/job.routes')(app);
@@ -37,13 +38,18 @@ require('./app/routes/field.routes')(app);
 require('./app/routes/recruitment.routes')(app);
 >>>>>>> add recruitment
 =======
+=======
+>>>>>>> 6f03c0399590f2060102c66fb820a993a2978826
 // require('./app/routes/job.routes')(app);
 // require('./app/routes/major.routes')(app);
 // require('./app/routes/company.routes')(app);
 // require('./app/routes/field.routes')(app);
 // require('./app/routes/recruitment.routes')(app);
 require('./app/routes/routes')(app);
+<<<<<<< HEAD
 >>>>>>> add api
+=======
+>>>>>>> 6f03c0399590f2060102c66fb820a993a2978826
 
 const PORT = 8080;
 app.listen(PORT, () => {

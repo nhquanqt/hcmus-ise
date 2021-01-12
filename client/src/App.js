@@ -13,6 +13,7 @@ class App extends Component {
             <div>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div>
 <<<<<<< HEAD
                     <AddAccount />
@@ -37,6 +38,9 @@ class App extends Component {
 =======
                 {router}
 >>>>>>> fixed
+=======
+                {router}
+>>>>>>> 6f03c0399590f2060102c66fb820a993a2978826
             </div>
         );
     }

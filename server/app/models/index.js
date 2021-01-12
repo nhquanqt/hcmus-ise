@@ -21,6 +21,7 @@ db.sequelize = sequelize;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 db.accounts = require("./account.model.js")(sequelize, Sequelize);
 =======
 db.jobs = require("./job.model.js")(sequelize, Sequelize);
@@ -29,6 +30,8 @@ db.job = require("./job.model.js")(sequelize, Sequelize);
 >>>>>>> add api
 db.majors = require("./major.model.js")(sequelize, Sequelize);
 db.company = require("./company.model.js")(sequelize, Sequelize);
+=======
+>>>>>>> 6f03c0399590f2060102c66fb820a993a2978826
 db.fields = require("./field.model.js")(sequelize, Sequelize);
 db.recruitment = require("./recruitment.model.js")(sequelize, Sequelize);
 db.seeker = require("./seeker.model.js")(sequelize, Sequelize);
@@ -44,6 +47,7 @@ db.write_review_company = require("./writeReviewCompany.model.js")(sequelize, Se
 db.write_review_seeker = require("./writeReviewSeeker.model.js")(sequelize, Sequelize);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 db.jobs.belongsTo(db.majors, {foreignKey: "MajorID"});
 db.jobs.belongsTo(db.recruitments, {foreignKey: "RecruitmentID"});
 db.companies.belongsTo(db.fields, {foreignKey: "FieldID"});
@@ -53,6 +57,8 @@ db.companies.belongsTo(db.fields, {foreignKey: "FieldID"});
 db.recruitments.belongsTo(db.companies, {foreignKey: "CompanyID"});
 >>>>>>> add recruitment
 =======
+=======
+>>>>>>> 6f03c0399590f2060102c66fb820a993a2978826
 
 db.user.belongsTo(db.user_type, {foreignKey: "UserTypeID"});
 db.user_log.belongsTo(db.user, {foreignKey: "UserID"});
@@ -68,6 +74,9 @@ db.education_detail.belongsTo(db.seeker, {foreignKey: "SeekerID"});
 db.skill_detail.belongsTo(db.seeker, {foreignKey: "SeekerID"});
 db.education_detail.belongsTo(db.majors, {foreignKey: "MajorID"});
 db.skill_detail.belongsTo(db.skill_set, {foreignKey: "SkillSetID"});
+<<<<<<< HEAD
 >>>>>>> add api
+=======
+>>>>>>> 6f03c0399590f2060102c66fb820a993a2978826
 
 module.exports = db;
