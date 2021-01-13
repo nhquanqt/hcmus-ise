@@ -296,13 +296,14 @@ const ProfileScreen = (props, { navigation }) => {
                         dateFormat="dd-MM-yyyy"
                         popperPlacement="top"
                         showYearDropdown
+                        maxDate={new Date()}
                         customInput={
                             <TextInput
                             returnKeyType = "done"
                             value = { dob.value }
-                            onChangeText = {
-                                (text) => setDob({ value: text, error: '' })
-                            }
+                            // onChangeText = {
+                            //     (text) => setDob({ value: text, error: '' })
+                            // }
                             error = {!!dob.error }
                             errorText = { dob.error }
                             />
