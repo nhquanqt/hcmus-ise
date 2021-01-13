@@ -296,6 +296,7 @@ const ProfileScreen = (props, { navigation }) => {
                         dateFormat="dd-MM-yyyy"
                         popperPlacement="top"
                         showYearDropdown
+                        maxDate={new Date()}
                         customInput={
                             <TextInput
                             returnKeyType = "done"
